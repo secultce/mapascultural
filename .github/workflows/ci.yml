@@ -15,6 +15,9 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      
+      - name: Checkout submodules
+        run: git submodule update --init --recursive
           
       - name: Criação da Imagem docker
         uses: docker/build-push-action@v5.0.0
