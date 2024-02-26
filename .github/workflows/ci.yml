@@ -2,7 +2,6 @@ name: ci
 on:
   push:
     branches: 
-      - "main"
       - "infra"
 jobs:
   CI:
@@ -15,7 +14,7 @@ jobs:
         uses: docker/login-action@v3.0.0
         with:
           username: ${{ secrets.DOCKERHUB_USER }}
-          password: ${{ secrets.DOCKERHUB_PASSWD }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
           
       - name: Criação da Imagem docker
         uses: docker/build-push-action@v5.0.0
