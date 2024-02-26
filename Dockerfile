@@ -28,6 +28,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	apt-get install -y nodejs && \
 	## Instalação das extensões do node
 	npm install -g pnpm terser uglifycss autoprefixer postcss sass && \
+	## Instalação dos submódulos
+	git submodule init && git submodule update \
 	# Install extensions
 	docker-php-ext-install -j$(nproc) opcache pdo_pgsql  zip  xml  curl  opcache && \
 	# Install GD
