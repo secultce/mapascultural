@@ -1,0 +1,70 @@
+@use 'sass:color';
+
+// COLORS
+$black: #1E1E1E;
+$error: #FF2D2D;
+$gray-100: #F5F5F5;
+$gray-300: #C4C4C4;
+$gray-700: #4E4E4E;
+$warning: #F07B07;
+$white: #FFFFFF;
+
+// Default lightness deltas
+$lightness-300: 25%;
+$lightness-700: 25%;
+
+// Brand colors
+$primary-500: #22A638;
+$secondary-500: #F59E00;
+
+// Entities colors
+$opportunities-500: #E70DCB;
+$events-500: #36B39E;
+$agents-500: #F59E00;
+$projects-500: #3199E5;
+$spaces-500: #22A638;
+
+$seals-500: #1E1E1E;
+
+// Feedback colors
+$danger-500: #EF1010;
+$success-500: #498200;
+$warning-500: #FF9F1C;
+$helper-500: #0074C1;
+
+// home
+$home-opportunities: #FFCE75;
+$home-feature: #F59E00;
+$home-register: #195249;
+
+// // Neutral colors
+// $low-500: #1E1E1E;
+// $high-500: #FFFFFF;
+
+// // FONTS
+// $font-body: 'Open Sans', sans-serif;
+// $font-headings: 'Open Sans', sans-serif;
+
+// // Borders radius
+// $border-radius-xs: 4px;
+// $border-radius-sm: 8px;
+// $border-radius-pill: 64px;
+
+// // Borders
+// $border-hairline: 1px solid;
+// $border-solid: 2px solid;
+
+// // Shadows
+// $shadow-lv-1: 0px 4px 8px rgba(0, 0, 0, 0.16);
+// $shadow-lv-2: 0px 8px 16px rgba(0, 0, 0, 0.16);
+// $shadow-lv-3: 0px 8px 24px rgba(0, 0, 0, 0.16);
+// $shadow-lv-4: 0px 16px 48px rgba(0, 0, 0, 0.16);
+// $shadow-lv-1-up: 0px -4px 8px rgba(0, 0, 0, 0.16);
+
+@import '../../../BaseV2/assets-src/sass/theme-BaseV2';
+
+.home-header {
+    &__content {
+        background: linear-gradient(97.05deg, $primary-300 32%, $secondary-300 113%), linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+    }
+}
