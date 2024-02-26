@@ -18,6 +18,9 @@ jobs:
       
       - name: Checkout submodules
         run: git submodule update --init
+      
+      - name: Change submodule branch
+        run: git submodule set-branch v3.0.0 plugins/MultipleLocalAuth
           
       - name: Criação da Imagem docker
         uses: docker/build-push-action@v5.0.0
