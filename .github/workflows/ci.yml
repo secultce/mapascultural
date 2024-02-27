@@ -18,6 +18,9 @@ jobs:
       
       - name: Checkout submodules
         run: git submodule update --init --recursive
+      
+      - name: Change submodules to tag v3.0.0
+        run: cd plugins/MultipleLocalAuth && git checkout v3.0.0
           
       - name: Criação da Imagem docker
         uses: docker/build-push-action@v5.0.0
