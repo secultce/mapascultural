@@ -31,3 +31,10 @@ jobs:
           tags: |
             secultceara/mapacultural:${{ github.ref_name }}
             secultceara/mapacultural:latest
+
+  CD:
+    needs: CI
+    runs-on: self-hosted
+    steps:
+      - name: Pull da imagem do dockerhub
+        run: docker pull secultceara/mapacultural:latest
