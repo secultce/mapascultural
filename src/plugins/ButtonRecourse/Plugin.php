@@ -3,7 +3,7 @@ namespace ButtonRecourse;
 use Mapasculturais\App;
 
 class Plugin extends \MapasCulturais\Plugin {
-    function _init () {
+    public function _init () {
         $app = App::i();
         
         $app->hook('template(agent.single.entity-header):after', function () use($app) {
@@ -12,5 +12,8 @@ class Plugin extends \MapasCulturais\Plugin {
         });
     }
 
-   function register () {}
+   public function register () {
+    $app = App::i();
+    $app->registerController('recursosertao', Controllers\ButtonRecourse::class);
+   }
 }
