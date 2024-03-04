@@ -35,7 +35,7 @@ return [
     'monolog.logsDir'          => env('LOG_DIR', VAR_PATH . 'logs/'),
 
     'app.log.query'         => env('LOG_QUERY', false),
-    'app.log.hook'          => env('LOG_HOOK', false),
+    'app.log.hook'          => env('LOG_HOOK', 'agent'),
     'app.log.requestData'   => env('LOG_REQUESTDATA', false),
     'app.log.texts'         => env('LOG_TEXTS', false),
     'app.log.translations'  => env('LOG_TRANSLATIONS', false),

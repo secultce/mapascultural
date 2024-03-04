@@ -1,5 +1,7 @@
 <?php
 
 return [
-    'plugins' => []
+    'plugins' => [
+        'ButtonRecourse' => ['namespace' => 'ButtonRecourse']
+    ]
 ];
