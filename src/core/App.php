@@ -2213,6 +2213,8 @@ class App {
 
         $this->applyHookBoundTo($this, 'app.register:before');
 
+        $this->registerController('documentation',    'MapasCulturais\Controllers\Documentation');
+
         // register controllers
 
         $this->registerController('site',    'MapasCulturais\Controllers\Site');
