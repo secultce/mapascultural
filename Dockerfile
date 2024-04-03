@@ -55,9 +55,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	# Instalação dos pacotes node
 	cd /var/www/src && pnpm install --recursive && pnpm run build && \
 	sass themes/BaseV1/assets/css/sass/main.scss:themes/BaseV1/assets/css/main.css && \
-	# Cria o diretório DoctrineProxies
-	&& mkdir -p /var/www/var/DoctrineProxies \
-	# alteração das permissões 
+	# alteração das permissões
+	mkdir -p /var/www/var/DoctrineProxies && \
 	ln -s /var/www/html /var/www/public && \
 	chown www-data:www-data -R /var/www && \
 	# Limpeza do apt
