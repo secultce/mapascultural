@@ -20,12 +20,18 @@ externalDocs:
 servers:
   - url: /api/v2
 tags:
+  - name: Agentes
+    description: Rotas relacionadas aos agentes
   - name: Selos
     description: Rotas relacionadas aos selos
 paths:
+  /agents:
+    $ref: './components/paths/agent/get-list.yaml'
   /seals:
     $ref: './components/paths/seal/get-list.yaml'
 components:
   schemas:
+    Agent:
+      $ref: './components/schemas/agent.yaml'
     Seal:
       $ref: './components/schemas/seal.yaml'
