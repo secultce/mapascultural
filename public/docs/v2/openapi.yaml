@@ -22,16 +22,28 @@ servers:
 tags:
   - name: Agentes
     description: Rotas relacionadas aos agentes
+  - name: Espaços
+    description: Rotas relacionadas aos espaços
+  - name: Projetos
+    description: Rotas relacionadas aos projetos
   - name: Selos
     description: Rotas relacionadas aos selos
 paths:
   /agents:
     $ref: './components/paths/agent/get-list.yaml'
+  /projects:
+    $ref: './components/paths/project/get-list.yaml'
   /seals:
     $ref: './components/paths/seal/get-list.yaml'
+  /spaces:
+    $ref: './components/paths/space/get-list.yaml'
 components:
   schemas:
     Agent:
       $ref: './components/schemas/agent.yaml'
+    Project:
+      $ref: './components/schemas/project.yaml'
     Seal:
       $ref: './components/schemas/seal.yaml'
+    Space:
+      $ref: './components/schemas/space.yaml'
