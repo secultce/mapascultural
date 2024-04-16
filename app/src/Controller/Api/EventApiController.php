@@ -21,7 +21,7 @@ class EventApiController
         $this->repository = new EventRepository();
     }
 
-        public function getList(): JsonResponse
+    public function getList(): JsonResponse
     {
         $types = $this->eventService->getAll();
 
