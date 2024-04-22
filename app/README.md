@@ -232,3 +232,9 @@ Para executar o PHP-CS-FIXER basta entrar no container da aplicação e executar
 ```
 php app/bin/console app:code-style
 ```
+
+## Fixtures
+Para executar o conjunto de fixtures basta entrar no container da aplicação e executar
+```
+php app/bin/console app:fixtures
+```
