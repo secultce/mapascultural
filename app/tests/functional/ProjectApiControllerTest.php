@@ -23,4 +23,26 @@ class ProjectApiControllerTest extends AbstractTestCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertIsObject($content);
     }
+
+    public function testCreateProjectShouldCreateAProject(): void
+    {
+        $data = [
+            'name' => 'PHP com Rapadura',
+            'shortDescription' => 'php com rapadura',
+            'type' => 1,
+        ];
+
+        $response = $this->client->request('POST', '/api/v2/projects', [
+            'headers' => ['Content-Type' => 'application/json'],
+            'body' => json_encode($data),
+        ]);
+
+        $this->assertEquals(201, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertEquals($data['name'], $content['name']);
+        $this->assertEquals($data['shortDescription'], $content['shortDescription']);
+        $this->assertEquals($data['type'], $content['type']);
+    }
 }
