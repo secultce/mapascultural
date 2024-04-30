@@ -60,7 +60,7 @@ paths:
   /projects:
     $ref: './components/paths/project/get-list.yaml'
   /projects/{id}:
-    $ref: './components/paths/project/get-one.yaml'
+    $ref: './components/paths/project/group-param-id.yaml'
   /seals:
     $ref: './components/paths/seal/get-list.yaml'
   /spaces:
