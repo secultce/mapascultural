@@ -34,15 +34,9 @@ tags:
     description: Rotas relacionadas aos selos
 paths:
   /agents:
-    get:
-      $ref: './components/paths/agent/get-list.yaml'
-    post:
-      $ref: './components/paths/agent/create.yaml'
+    $ref: './components/paths/agent/group-get-post.yaml'
   /agents/{id}:
-    get:
-      $ref: './components/paths/agent/get-one.yaml'
-    delete:
-      $ref: './components/paths/agent/delete.yaml'
+    $ref: './components/paths/agent/group-param-id.yaml'
   /agents/{id}/opportunities:
     $ref: './components/paths/agent/get-opportunity.yaml'
   /agents/types:
@@ -50,7 +44,7 @@ paths:
   /events:
     $ref: './components/paths/event/group-get-post.yaml'
   /events/{id}:
-    $ref: './components/paths/event/get-one.yaml'
+    $ref: './components/paths/event/group-param-id.yaml'
   /events/types:
     $ref: './components/paths/event/get-type-list.yaml'
   /opportunities:
@@ -58,9 +52,9 @@ paths:
   /opportunities/{id}:
     $ref: './components/paths/opportunity/get-one.yaml'
   /projects:
-    $ref: './components/paths/project/get-list.yaml'
+    $ref: './components/paths/project/group-get-post.yaml'
   /projects/{id}:
-    $ref: './components/paths/project/get-one.yaml'
+    $ref: './components/paths/project/group-param-id.yaml'
   /seals:
     $ref: './components/paths/seal/get-list.yaml'
   /spaces:
