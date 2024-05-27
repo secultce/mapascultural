@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests;
+namespace App\Tests\Functional;
 
 use App\DataFixtures\AgentFixtures;
+use App\Tests\AbstractTestCase;
 use App\Tests\fixtures\AgentTestFixtures;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -108,7 +109,7 @@ class AgentApiControllerTest extends AbstractTestCase
         ]);
 
         $error = [
-            'error' => 'Agent not found',
+            'error' => 'The resource was not found.',
         ];
 
         $content = json_decode($response->getContent(false), true);

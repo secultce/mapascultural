@@ -4,26 +4,20 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
+use App\Exception\FieldRequiredException;
 use App\Repository\EventRepository;
 use App\Request\EventRequest;
 use App\Service\EventService;
-use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-class EventApiController
+class EventApiController extends AbstractApiController
 {
-    private EventService $eventService;
-    private EventRepository $repository;
-    private EventRequest $eventRequest;
-
-    public function __construct()
-    {
-        $this->eventService = new EventService();
-
-        $this->repository = new EventRepository();
-
-        $this->eventRequest = new EventRequest();
+    public function __construct(
+        private EventService $eventService,
+        private EventRepository $repository,
+        private EventRequest $eventRequest
+    ) {
     }
 
     public function getList(): JsonResponse
@@ -35,7 +29,8 @@ class EventApiController
 
     public function getOne(array $params): JsonResponse
     {
-        $event = $this->repository->find((int) $params['id']);
+        $id = $this->extractIdParam($params);
+        $event = $this->repository->find($id);
 
         return new JsonResponse($event);
     }
@@ -49,53 +44,53 @@ class EventApiController
 
     public function getEventsBySpace(array $params): JsonResponse
     {
-        $events = $this->repository->findEventsBySpaceId((int) $params['id']);
+        $id = $this->extractIdParam($params);
+        $events = $this->repository->findEventsBySpaceId($id);
 
         return new JsonResponse($events);
     }
 
     public function post(): JsonResponse
     {
-        try {
-            $eventData = $this->eventRequest->validatePost();
+        $eventData = $this->eventRequest->validatePost();
 
-            $event = $this->eventService->create((object) $eventData);
-
-            $responseData = [
-                'id' => $event->getId(),
-                'name' => $event->getName(),
-                'shortDescription' => $event->getShortDescription(),
-                'classificacaoEtaria' => $event->getMetadata('classificacaoEtaria'),
-                'terms' => $event->getTerms(),
-            ];
-
-            return new JsonResponse($responseData, Response::HTTP_CREATED);
-        } catch (Exception $exception) {
-            return new JsonResponse(['error' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
+        if (true === empty($eventData)) {
+            throw new FieldRequiredException('Event data is required.');
         }
+
+        $event = $this->eventService->create((object) $eventData);
+
+        $responseData = [
+            'id' => $event->getId(),
+            'name' => $event->getName(),
+            'shortDescription' => $event->getShortDescription(),
+            'classificacaoEtaria' => $event->getMetadata('classificacaoEtaria'),
+            'terms' => $event->getTerms(),
+        ];
+
+        return new JsonResponse($responseData, Response::HTTP_CREATED);
     }
 
     public function patch(array $params): JsonResponse
     {
-        try {
-            $eventData = $this->eventRequest->validateUpdate();
-            $event = $this->eventService->update((int) $params['id'], (object) $eventData);
+        $id = $this->extractIdParam($params);
+        $eventData = $this->eventRequest->validateUpdate();
 
-            return new JsonResponse($event, Response::HTTP_CREATED);
-        } catch (Exception $exception) {
-            return new JsonResponse(['error' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
+        if (true === empty($eventData)) {
+            throw new FieldRequiredException('Event data is required.');
         }
+
+        $event = $this->eventService->update($id, (object) $eventData);
+
+        return new JsonResponse($event, Response::HTTP_CREATED);
     }
 
     public function delete($params): JsonResponse
     {
-        try {
-            $event = $this->eventRequest->validateEventExistent($params);
-            $this->repository->softDelete($event);
+        $event = $this->eventRequest->validateEventExistent($params);
 
-            return new JsonResponse([], Response::HTTP_OK);
-        } catch (Exception $exception) {
-            return new JsonResponse(['error' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
-        }
+        $this->repository->softDelete($event);
+
+        return new JsonResponse([], Response::HTTP_OK);
     }
 }

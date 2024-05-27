@@ -2,18 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Tests;
+namespace App\Tests\Functional;
 
-use App\DataFixtures\SealFixtures;
-use App\Tests\fixtures\SealTestFixtures;
+use App\DataFixtures\SpaceFixtures;
+use App\Tests\AbstractTestCase;
+use App\Tests\fixtures\SpaceTestFixtures;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class SealApiControllerTest extends AbstractTestCase
+class SpaceApiControllerTest extends AbstractTestCase
 {
-    private const BASE_URL = '/api/v2/seals';
+    private const BASE_URL = '/api/v2/spaces';
 
-    public function testGetSealsShouldRetrieveAList(): void
+    public function testGetSpacesShouldRetrieveAList(): void
     {
         $response = $this->client->request(Request::METHOD_GET, self::BASE_URL);
         $content = json_decode($response->getContent());
@@ -22,7 +23,7 @@ class SealApiControllerTest extends AbstractTestCase
         $this->assertIsArray($content);
     }
 
-    public function testGetOneSealShouldRetrieveAObject(): void
+    public function testGetOneSpaceShouldRetrieveAObject(): void
     {
         $response = $this->client->request(Request::METHOD_GET, self::BASE_URL.'/1');
         $content = json_decode($response->getContent());
@@ -31,64 +32,62 @@ class SealApiControllerTest extends AbstractTestCase
         $this->assertIsObject($content);
     }
 
-    public function testCreateSealShouldReturnCreatedSeal(): void
+    public function testCreateSpaceShouldReturnCreatedSpace(): void
     {
         $this->markTestSkipped();
-        $sealTestFixtures = SealTestFixtures::partial();
+        $spaceTestFixtures = SpaceTestFixtures::partial();
 
         $response = $this->client->request(Request::METHOD_POST, self::BASE_URL, [
-            'body' => $sealTestFixtures->json(),
+            'body' => $spaceTestFixtures->json(),
         ]);
 
         $content = json_decode($response->getContent(), true);
         $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
         $this->assertIsArray($content);
-        foreach ($sealTestFixtures->toArray() as $key => $value) {
+        foreach ($spaceTestFixtures->toArray() as $key => $value) {
             $this->assertEquals($value, $content[$key]);
         }
     }
 
-    public function testDeleteSealShouldReturnSuccess(): void
+    public function testDeleteSpaceShouldReturnSuccess(): void
     {
         $this->markTestSkipped();
-        $sealId = SealFixtures::SEAL_ID_6;
+        $response = $this->client->request(Request::METHOD_DELETE, self::BASE_URL.'/1');
 
-        $response = $this->client->request(Request::METHOD_DELETE, sprintf(self::BASE_URL.'/%s', $sealId));
         $this->assertEquals(Response::HTTP_NO_CONTENT, $response->getStatusCode());
 
-        $response = $this->client->request(Request::METHOD_GET, sprintf(self::BASE_URL.'/%s', $sealId));
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $response = $this->client->request(Request::METHOD_GET, self::BASE_URL.'/1');
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
     public function testUpdate(): void
     {
-        $this->markTestSkipped();
-        $sealTestFixtures = SealTestFixtures::partial();
-        $url = sprintf(self::BASE_URL.'/%s', SealFixtures::SEAL_ID_3);
+        $spaceTestFixtures = SpaceTestFixtures::partial();
+        $url = sprintf(self::BASE_URL.'/%s', SpaceFixtures::SPACE_ID_3);
 
         $response = $this->client->request(Request::METHOD_PATCH, $url, [
-            'body' => $sealTestFixtures->json(),
+            'body' => $spaceTestFixtures->json(),
         ]);
 
         $content = json_decode($response->getContent(), true);
         $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
         $this->assertIsArray($content);
-        foreach ($sealTestFixtures->toArray() as $key => $value) {
+        foreach ($spaceTestFixtures->toArray() as $key => $value) {
             $this->assertEquals($value, $content[$key]);
         }
     }
 
     public function testUpdateNotFoundedResource(): void
     {
-        $sealTestFixtures = SealTestFixtures::partial();
-        $url = sprintf(self::BASE_URL.'/%s', 80);
+        $spaceTestFixtures = SpaceTestFixtures::partial();
+        $url = sprintf(self::BASE_URL.'/%s', 1024);
 
         $response = $this->client->request(Request::METHOD_PATCH, $url, [
-            'body' => $sealTestFixtures->json(),
+            'body' => $spaceTestFixtures->json(),
         ]);
 
         $error = [
-            'error' => 'Seal not found',
+            'error' => 'The resource was not found.',
         ];
 
         $content = json_decode($response->getContent(false), true);

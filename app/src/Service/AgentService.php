@@ -31,9 +31,6 @@ class AgentService
         );
     }
 
-    /**
-     * @throws ResourceNotFoundException
-     */
     public function update(int $id, object $data): Agent
     {
         $agentFromDB = $this->repository->find($id);

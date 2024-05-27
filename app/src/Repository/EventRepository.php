@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Enum\EntityStatusEnum;
+use App\Exception\ResourceNotFoundException;
 use App\Repository\Interface\EventRepositoryInterface;
 use Doctrine\Persistence\ObjectRepository;
 use MapasCulturais\Entities\Event;
@@ -28,9 +29,15 @@ class EventRepository extends AbstractRepository implements EventRepositoryInter
             ->getArrayResult();
     }
 
-    public function find(int $id): ?Event
+    public function find(int $id): Event
     {
-        return $this->repository->find($id);
+        $event = $this->repository->find($id);
+
+        if (null === $event) {
+            throw new ResourceNotFoundException();
+        }
+
+        return $event;
     }
 
     public function findEventsBySpaceId(int $spaceId): array

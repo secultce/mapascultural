@@ -8,7 +8,7 @@ use MapasCulturais\Entities\Event;
 
 interface EventRepositoryInterface
 {
-    public function find(int $id): ?Event;
+    public function find(int $id): Event;
 
     public function findAll(): array;
 

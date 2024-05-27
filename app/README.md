@@ -388,7 +388,7 @@ Para criar um no cenário de teste funcional, basta adicionar sua nova classe no
 ```php
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Functional;
 
 class MeuTest extends AbstractTestCase
 {

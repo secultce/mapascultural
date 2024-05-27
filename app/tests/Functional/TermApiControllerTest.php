@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests;
+namespace App\Tests\Functional;
 
+use App\Tests\AbstractTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
