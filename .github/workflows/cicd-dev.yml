@@ -2,21 +2,23 @@ name: ci/cd-dev
 
 on:
   pull_request:
-    branches:
-      - develop
     types:
       - closed
+      - ready_for_review
+      - review_requested
 
   workflow_dispatch:
 
 jobs:
   CODE_STYLE:
+    name: PHP-CS-Fixer
     runs-on: ubuntu-latest
     steps:
-      - name: PHP CS Fixer
-        uses: StephaneBour/actions-php-cs-fixer@1.0
+      - uses: actions/checkout@v4
+      - name: Run PHP-CS-Fixer
+        uses: erkenes/php-cs-fixer-action@main
         with:
-          dir: './app'
+          args: '--dry-run --diff -vvv'
 
   BUILD:
     if: github.event.pull_request.merged == true
