@@ -5,15 +5,19 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Repository\TermRepository;
+use App\Request\TermRequest;
+use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class TermApiController
 {
     private TermRepository $repository;
+    private TermRequest $request;
 
     public function __construct()
     {
         $this->repository = new TermRepository();
+        $this->request = new TermRequest();
     }
 
     public function getList(): JsonResponse
@@ -25,8 +29,12 @@ class TermApiController
 
     public function getOne(array $params): JsonResponse
     {
-        $term = $this->repository->find((int) $params['id']);
+        try {
+            $term = $this->request->validateTermExistent($params);
 
-        return new JsonResponse($term);
+            return new JsonResponse($term);
+        } catch (Exception $exceptionNotFoundTerm) {
+            return new JsonResponse(['error' => $exceptionNotFoundTerm->getMessage()], JsonResponse::HTTP_NOT_FOUND);
+        }
     }
 }
