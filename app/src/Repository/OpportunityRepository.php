@@ -25,6 +25,8 @@ class OpportunityRepository extends AbstractRepository implements OpportunityRep
     {
         return $this->repository
             ->createQueryBuilder('opportunity')
+            ->where('opportunity.status = :status')
+            ->setParameter('status', EntityStatusEnum::ENABLED->getValue())
             ->getQuery()
             ->getArrayResult();
     }
@@ -32,6 +34,7 @@ class OpportunityRepository extends AbstractRepository implements OpportunityRep
     public function find(int $id): Opportunity
     {
         $opportunity = $this->repository->findOneBy([
+            'id' => $id,
             'status' => EntityStatusEnum::ENABLED,
         ]);
 

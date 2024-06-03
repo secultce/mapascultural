@@ -25,7 +25,7 @@ class SealApiControllerTest extends AbstractTestCase
 
     public function testGetOneSealShouldRetrieveAObject(): void
     {
-        $response = $this->client->request(Request::METHOD_GET, self::BASE_URL.'/1');
+        $response = $this->client->request(Request::METHOD_GET, self::BASE_URL.'/3');
         $content = json_decode($response->getContent());
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());

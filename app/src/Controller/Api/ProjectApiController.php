@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 class ProjectApiController extends AbstractApiController
 {
     public function __construct(
-        public ProjectService $projectService,
+        private ProjectService $projectService,
         private ProjectRequest $projectRequest,
         private ProjectRepository $repository
     ) {
