@@ -50,7 +50,7 @@ class OpportunityRepository extends AbstractRepository implements OpportunityRep
 
     public function findOpportunitiesByAgentId(int $agentId): array
     {
-        $queryBuilder = $this->getEntityManager()
+        $queryBuilder = $this->entityManager
             ->createQueryBuilder()
             ->select('ao')
             ->from(AgentOpportunity::class, 'ao')

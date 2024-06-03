@@ -8,7 +8,7 @@ use MapasCulturais\Entities\Term;
 
 interface TermRepositoryInterface
 {
-    public function find(int $id): ?Term;
+    public function find(int $id): Term;
 
     public function findAll(): array;
 

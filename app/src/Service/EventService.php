@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Enum\EntityStatusEnum;
 use App\Repository\Interface\EventRepositoryInterface;
 use MapasCulturais\Entities\Event;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class EventService
@@ -44,10 +42,6 @@ class EventService
     public function update(int $id, object $data): Event
     {
         $eventFromDB = $this->repository->find($id);
-
-        if (null === $eventFromDB || EntityStatusEnum::TRASH->getValue() === $eventFromDB->status) {
-            throw new ResourceNotFoundException('Event not found or already deleted.');
-        }
 
         $eventUpdated = $this->serializer->denormalize(
             data: $data,

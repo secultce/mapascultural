@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Enum\EntityStatusEnum;
-use App\Exception\ResourceNotFoundException;
 use App\Repository\Interface\OpportunityRepositoryInterface;
 use MapasCulturais\Entities\Opportunity;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -34,11 +32,6 @@ class OpportunityService
     public function update(int $id, object $data): Opportunity
     {
         $opportunityFromDB = $this->repository->find($id);
-
-        if (null === $opportunityFromDB || EntityStatusEnum::TRASH->getValue() === $opportunityFromDB->status) {
-            throw new ResourceNotFoundException('Opportunity not found');
-        }
-
         $opportunityUpdated = $this->serializer->denormalize(
             data: $data,
             type: Opportunity::class,
@@ -51,7 +44,7 @@ class OpportunityService
         return $opportunityUpdated;
     }
 
-    public function create($data): Opportunity
+    public function create(array $data): Opportunity
     {
         $opportunity = new Opportunity();
 
@@ -59,19 +52,19 @@ class OpportunityService
         $opportunity->setName($data['name']);
         $opportunity->terms['area'] = $data['terms']['area'];
 
-        if (isset($data['project'])) {
+        if (true === isset($data['project'])) {
             $opportunity->setObjectType("MapasCulturais\Entities\Project");
             $opportunity->setProject($data['project']);
         }
-        if (isset($data['event'])) {
+        if (true === isset($data['event'])) {
             $opportunity->setObjectType("MapasCulturais\Entities\Event");
             $opportunity->setEvent($data['event']);
         }
-        if (isset($data['space'])) {
+        if (true === isset($data['space'])) {
             $opportunity->setObjectType("MapasCulturais\Entities\Space");
             $opportunity->setSpace($data['space']);
         }
-        if (isset($data['agent'])) {
+        if (true === isset($data['agent'])) {
             $opportunity->setObjectType("MapasCulturais\Entities\Agent");
             $opportunity->setAgent($data['agent']);
         }

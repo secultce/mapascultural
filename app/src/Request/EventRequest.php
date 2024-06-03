@@ -4,21 +4,15 @@ declare(strict_types=1);
 
 namespace App\Request;
 
-use App\Enum\EntityStatusEnum;
-use App\Repository\EventRepository;
-use Exception;
-use MapasCulturais\Entities\Event;
+use App\Exception\FieldRequiredException;
+use App\Exception\InvalidRequestException;
 use Symfony\Component\HttpFoundation\Request;
 
 class EventRequest
 {
-    protected Request $request;
-    private $repository;
-
-    public function __construct()
-    {
-        $this->request = new Request();
-        $this->repository = new EventRepository();
+    public function __construct(
+        private Request $request
+    ) {
     }
 
     public function validatePost(): array
@@ -28,27 +22,20 @@ class EventRequest
 
         $requiredFields = ['name', 'shortDescription', 'classificacaoEtaria', 'terms'];
         foreach ($requiredFields as $field) {
-            if (!isset($data[$field])) {
-                throw new Exception(ucfirst($field).' is required.');
+            if (false === isset($data[$field])) {
+                throw new FieldRequiredException(ucfirst($field));
             }
         }
 
-        if (!isset($data['terms']['linguagem']) || !is_array($data['terms']) || !$data['terms']['linguagem']) {
-            throw new Exception('The "terms" field must be an object with a property "linguagem" which is an array.');
+        if (
+            false === isset($data['terms']['linguagem'])
+            || false === is_array($data['terms'])
+            || false === is_array($data['terms']['linguagem'])
+        ) {
+            throw new InvalidRequestException('The "terms" field must be an object with a property "linguagem" which is an array.');
         }
 
         return $data;
-    }
-
-    public function validateEventExistent(array $params): Event
-    {
-        $event = $this->repository->find((int) $params['id']);
-
-        if (null === $event || EntityStatusEnum::TRASH->getValue() === $event->status) {
-            throw new Exception('Event not found or already deleted.');
-        }
-
-        return $event;
     }
 
     public function validateUpdate(): array

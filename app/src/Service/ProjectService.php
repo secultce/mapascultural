@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Enum\EntityStatusEnum;
-use App\Exception\ResourceNotFoundException;
+use App\Exception\FieldRequiredException;
 use App\Repository\Interface\ProjectRepositoryInterface;
 use MapasCulturais\Entities\Project;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -20,6 +19,16 @@ class ProjectService
 
     public function create($data): Project
     {
+        if (true === empty($data->name)) {
+            throw new FieldRequiredException('The name field is required.');
+        }
+        if (true === empty($data->shortDescription)) {
+            throw new FieldRequiredException('The shortDescription field is required.');
+        }
+        if (true === empty($data->type)) {
+            throw new FieldRequiredException('The type field is required.');
+        }
+
         $project = new Project();
         $project->setName($data->name);
         $project->setShortDescription($data->shortDescription);
@@ -34,8 +43,8 @@ class ProjectService
     {
         $projectFromDB = $this->projectRepository->find($id);
 
-        if (null === $projectFromDB || EntityStatusEnum::TRASH->getValue() === $projectFromDB->status) {
-            throw new ResourceNotFoundException('Project not found or already deleted.');
+        if (true === empty($data->name)) {
+            throw new FieldRequiredException('name');
         }
 
         $projectUpdated = $this->serializer->denormalize(
@@ -43,6 +52,7 @@ class ProjectService
             type: Project::class,
             context: ['object_to_populate' => $projectFromDB]
         );
+
         $projectUpdated->saveTerms();
         $projectUpdated->saveMetadata();
 
@@ -51,17 +61,9 @@ class ProjectService
         return $projectUpdated;
     }
 
-    /**
-     * @throws ResourceNotFoundException
-     */
     public function discard(int $id): void
     {
         $project = $this->projectRepository->find($id);
-
-        if (null === $project || EntityStatusEnum::TRASH->getValue() === $project->status) {
-            throw new ResourceNotFoundException('Project not found or already deleted.');
-        }
-
         $this->$project->softDelete($project);
     }
 }

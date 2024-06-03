@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Enum\EntityStatusEnum;
-use App\Exception\ResourceNotFoundException;
 use App\Repository\Interface\AgentRepositoryInterface;
 use MapasCulturais\Entities\Agent;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -35,10 +33,6 @@ class AgentService
     {
         $agentFromDB = $this->repository->find($id);
 
-        if (null === $agentFromDB || EntityStatusEnum::TRASH->getValue() === $agentFromDB->status) {
-            throw new ResourceNotFoundException('Agent not found');
-        }
-
         $agentUpdated = $this->serializer->denormalize(
             data: $data,
             type: Agent::class,
@@ -65,17 +59,9 @@ class AgentService
         return $agent;
     }
 
-    /**
-     * @throws ResourceNotFoundException
-     */
     public function discard(int $id): void
     {
         $agent = $this->repository->find($id);
-
-        if (null === $agent || EntityStatusEnum::TRASH->getValue() === $agent->status) {
-            throw new ResourceNotFoundException('Agent not found');
-        }
-
         $this->repository->softDelete($agent);
     }
 }
