@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Request;
 
-use App\Enum\EntityStatusEnum;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -46,20 +45,5 @@ class OpportunityRequest
             json: $this->request->getContent(),
             associative: true
         );
-    }
-
-    public function validateDelete(array $params): Opportunity
-    {
-        if (!isset($params['id'])) {
-            throw new Exception('ID is required.');
-        }
-
-        $opportunity = $this->repository->find((int) $params['id']);
-
-        if (!$opportunity || EntityStatusEnum::TRASH->getValue() === $opportunity->status) {
-            throw new Exception('Opportunity not found or already deleted.');
-        }
-
-        return $opportunity;
     }
 }

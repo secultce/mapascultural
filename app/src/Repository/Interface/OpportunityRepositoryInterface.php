@@ -8,7 +8,7 @@ use MapasCulturais\Entities\Opportunity;
 
 interface OpportunityRepositoryInterface
 {
-    public function find(int $id): ?Opportunity;
+    public function find(int $id): Opportunity;
 
     public function findAll(): array;
 
@@ -16,5 +16,5 @@ interface OpportunityRepositoryInterface
 
     public function save(Opportunity $opportunity): void;
 
-    public function softDelete(Opportunity $opportunity): void;
+    public function softDelete(int $id): void;
 }

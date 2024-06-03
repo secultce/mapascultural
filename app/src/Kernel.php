@@ -9,6 +9,7 @@ use App\Exception\FieldRequiredException;
 use App\Exception\InvalidRequestException;
 use App\Exception\RequiredIdParamException;
 use App\Exception\ResourceNotFoundException as InternalResourceNotFoundException;
+use App\Exception\ValidatorException;
 use DI\ContainerBuilder;
 use Error;
 use Exception;
@@ -76,6 +77,11 @@ class Kernel
             $response = $controller->$method($parameters);
         } catch (InternalResourceNotFoundException $exception) {
             $response = new JsonResponse(['error' => $exception->getMessage()], Response::HTTP_NOT_FOUND);
+        } catch (ValidatorException $exception) {
+            $response = new JsonResponse([
+                'error' => $exception->getMessage(),
+                'fields' => $exception->getFields(),
+            ], Response::HTTP_BAD_REQUEST);
         } catch (FieldInvalidException|FieldRequiredException|RequiredIdParamException|InvalidRequestException $exception) {
             $response = new JsonResponse(['error' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
         } catch (Exception|Error $exception) {

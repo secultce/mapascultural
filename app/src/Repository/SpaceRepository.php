@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Enum\EntityStatusEnum;
+use App\Exception\ResourceNotFoundException;
 use App\Repository\Interface\SpaceRepositoryInterface;
 use Doctrine\Persistence\ObjectRepository;
 use MapasCulturais\Entities\Space;
@@ -35,14 +36,22 @@ class SpaceRepository extends AbstractRepository implements SpaceRepositoryInter
             ->getArrayResult();
     }
 
-    public function find(int $id): ?Space
+    public function find(int $id): Space
     {
-        return $this->repository->find($id);
+        $space = $this->repository->find($id);
+
+        if (null === $space) {
+            throw new ResourceNotFoundException();
+        }
+
+        return $space;
     }
 
-    public function softDelete(Space $space): void
+    public function softDelete(int $id): void
     {
+        $space = $this->find($id);
         $space->setStatus(EntityStatusEnum::TRASH->getValue());
+
         $this->mapaCulturalEntityManager->persist($space);
         $this->mapaCulturalEntityManager->flush();
     }

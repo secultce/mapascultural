@@ -89,7 +89,7 @@ class SealApiControllerTest extends AbstractTestCase
         ]);
 
         $error = [
-            'error' => 'Seal not found',
+            'error' => 'The resource was not found.',
         ];
 
         $content = json_decode($response->getContent(false), true);
