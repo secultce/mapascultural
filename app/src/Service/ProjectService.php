@@ -8,19 +8,14 @@ use App\Enum\EntityStatusEnum;
 use App\Repository\ProjectRepository;
 use MapasCulturais\Entities\Project;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class ProjectService
 {
-    protected ProjectRepository $projectRepository;
-    private SerializerInterface $serializer;
-
-    public function __construct()
-    {
-        $this->projectRepository = new ProjectRepository();
-        $this->serializer = new Serializer([new ObjectNormalizer()]);
+    public function __construct(
+        private SerializerInterface $serializer,
+        private ProjectRepository $projectRepository,
+    ) {
     }
 
     public function create($data): Project

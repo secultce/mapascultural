@@ -7,26 +7,17 @@ namespace App\Service;
 use App\Enum\EntityStatusEnum;
 use App\Exception\ResourceNotFoundException;
 use App\Repository\AgentRepository;
-use App\Repository\ProjectRepository;
 use App\Repository\SealRepository;
 use MapasCulturais\Entities\Seal;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class SealService extends AbstractService
 {
-    private SealRepository $sealRepository;
-    private AgentRepository $agentRepository;
-    protected ProjectRepository $projectRepository;
-    private SerializerInterface $serializer;
-
-    public function __construct()
-    {
-        $this->projectRepository = new ProjectRepository();
-        $this->serializer = new Serializer([new ObjectNormalizer()]);
-        $this->sealRepository = new SealRepository();
-        $this->agentRepository = new AgentRepository();
+    public function __construct(
+        private readonly AgentRepository $agentRepository,
+        private readonly SerializerInterface $serializer,
+        private readonly SealRepository $sealRepository,
+    ) {
     }
 
     public function create(array $data): mixed

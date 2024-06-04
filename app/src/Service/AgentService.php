@@ -8,20 +8,16 @@ use App\Enum\EntityStatusEnum;
 use App\Exception\ResourceNotFoundException;
 use App\Repository\AgentRepository;
 use MapasCulturais\Entities\Agent;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class AgentService
 {
-    protected AgentRepository $repository;
-    private SerializerInterface $serializer;
     public const FILE_TYPES = '/src/conf/agent-types.php';
 
-    public function __construct()
-    {
-        $this->repository = new AgentRepository();
-        $this->serializer = new Serializer([new ObjectNormalizer()]);
+    public function __construct(
+        private readonly SerializerInterface $serializer,
+        private readonly AgentRepository $repository
+    ) {
     }
 
     public function getTypes(): array
