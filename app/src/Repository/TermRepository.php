@@ -30,7 +30,9 @@ class TermRepository extends AbstractRepository implements TermRepositoryInterfa
 
     public function find(int $id): Term
     {
-        $term = $this->repository->find($id);
+        $term = $this->repository->findOneBy([
+            'id' => $id,
+        ]);
 
         if (null === $term) {
             throw new ResourceNotFoundException();

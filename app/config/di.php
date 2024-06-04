@@ -24,10 +24,12 @@ use App\Service\Interface\OpportunityServiceInterface;
 use App\Service\Interface\ProjectServiceInterface;
 use App\Service\Interface\SealServiceInterface;
 use App\Service\Interface\SpaceServiceInterface;
+use App\Service\Interface\TermServiceInterface;
 use App\Service\OpportunityService;
 use App\Service\ProjectService;
 use App\Service\SealService;
 use App\Service\SpaceService;
+use App\Service\TermService;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -63,5 +65,6 @@ function services(): array
         ProjectServiceInterface::class => fn () => new ProjectService(new ProjectRepository(), new Serializer([new ObjectNormalizer()])),
         SealServiceInterface::class => fn () => new SealService(new AgentRepository(), new SealRepository(), new Serializer([new ObjectNormalizer()])),
         SpaceServiceInterface::class => fn () => new SpaceService(new Serializer([new ObjectNormalizer()]), new SpaceRepository()),
+        TermServiceInterface::class => fn () => new TermService(new Serializer([new ObjectNormalizer()]), new TermRepository()),
     ];
 }

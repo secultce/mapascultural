@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Repository\Interface\TermRepositoryInterface;
-use App\Service\TermService;
+use App\Request\TermRequest;
+use App\Service\Interface\TermServiceInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -13,7 +14,8 @@ class TermApiController extends AbstractApiController
 {
     public function __construct(
         private readonly TermRepositoryInterface $repository,
-        private readonly TermService $service
+        private readonly TermRequest $termRequest,
+        private readonly TermServiceInterface $service
     ) {
     }
 
@@ -30,6 +32,14 @@ class TermApiController extends AbstractApiController
         $term = $this->repository->find($id);
 
         return new JsonResponse($term);
+    }
+
+    public function post(): JsonResponse
+    {
+        $termData = $this->termRequest->validatePost();
+        $term = $this->service->create($termData);
+
+        return new JsonResponse($term, Response::HTTP_CREATED);
     }
 
     public function remove(array $params): JsonResponse
