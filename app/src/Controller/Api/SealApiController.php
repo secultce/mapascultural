@@ -14,17 +14,13 @@ use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-class SealApiController
+readonly class SealApiController
 {
-    private SealRepository $repository;
-    private SealService $sealService;
-    private SealRequest $sealRequest;
-
-    public function __construct()
-    {
-        $this->repository = new SealRepository();
-        $this->sealService = new SealService();
-        $this->sealRequest = new SealRequest();
+    public function __construct(
+        private SealRepository $repository,
+        private SealRequest $sealRequest,
+        private SealService $sealService,
+    ) {
     }
 
     public function getList(): JsonResponse

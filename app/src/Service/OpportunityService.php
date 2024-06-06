@@ -8,22 +8,16 @@ use App\Enum\EntityStatusEnum;
 use App\Exception\ResourceNotFoundException;
 use App\Repository\OpportunityRepository;
 use MapasCulturais\Entities\Opportunity;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class OpportunityService
 {
-    protected OpportunityRepository $repository;
-
     public const FILE_TYPES = '/src/conf/opportunity-types.php';
 
-    private SerializerInterface $serializer;
-
-    public function __construct()
-    {
-        $this->repository = new OpportunityRepository();
-        $this->serializer = new Serializer([new ObjectNormalizer()]);
+    public function __construct(
+        private readonly SerializerInterface $serializer,
+        private readonly OpportunityRepository $repository,
+    ) {
     }
 
     public function getTypes(): array

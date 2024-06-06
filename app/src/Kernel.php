@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use DI\ContainerBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
@@ -58,7 +59,13 @@ class Kernel
 
         unset($parameters['_route']);
 
-        $response = (new $controller())->$method($parameters);
+        $builder = new ContainerBuilder();
+        $builder->addDefinitions(dirname(__DIR__).'/config/di.php');
+        $container = $builder->build();
+
+        $controller = $container->get($controller);
+
+        $response = $controller->$method($parameters);
 
         if ($response instanceof Response) {
             $response->send();
