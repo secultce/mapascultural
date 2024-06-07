@@ -6,26 +6,18 @@ namespace App\Service;
 
 use App\Enum\EntityStatusEnum;
 use App\Repository\EventRepository;
-use App\Request\EventRequest;
 use MapasCulturais\Entities\Event;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class EventService
 {
-    protected EventRepository $repository;
-    protected EventRequest $eventRequest;
-
     public const FILE_TYPES = '/src/conf/event-types.php';
-    private SerializerInterface $serializer;
 
-    public function __construct()
-    {
-        $this->repository = new EventRepository();
-        $this->eventRequest = new EventRequest();
-        $this->serializer = new Serializer([new ObjectNormalizer()]);
+    public function __construct(
+        private readonly SerializerInterface $serializer,
+        private readonly EventRepository $repository,
+    ) {
     }
 
     public function getTypes(): array

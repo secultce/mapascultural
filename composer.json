@@ -32,7 +32,8 @@
         "symfony/console": "^6.4.6",
         "symfony/serializer": "^7.0",
         "symfony/property-access": "^7.0",
-        "symfony/validator": "^7.0"
+        "symfony/validator": "^7.0",
+        "php-di/php-di": "^7.0"
     },
     "autoload": {
         "psr-4": {

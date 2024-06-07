@@ -54,9 +54,9 @@ class SpaceApiController
                 'type' => $space->getType(),
             ];
 
-            return new JsonResponse($responseData, 201);
+            return new JsonResponse($responseData, Response::HTTP_CREATED);
         } catch (Exception $exception) {
-            return new JsonResponse(['error' => $exception->getMessage()], 400);
+            return new JsonResponse(['error' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -84,6 +84,6 @@ class SpaceApiController
 
         $this->repository->softDelete($space);
 
-        return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
+        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 }
