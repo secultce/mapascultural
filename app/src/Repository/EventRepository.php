@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Enum\EntityStatusEnum;
+use App\Repository\Interface\EventRepositoryInterface;
 use Doctrine\Persistence\ObjectRepository;
 use MapasCulturais\Entities\Event;
 use MapasCulturais\Entities\EventOccurrence;
 
-class EventRepository extends AbstractRepository
+class EventRepository extends AbstractRepository implements EventRepositoryInterface
 {
     private ObjectRepository $repository;
 

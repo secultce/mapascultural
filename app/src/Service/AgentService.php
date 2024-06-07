@@ -6,7 +6,7 @@ namespace App\Service;
 
 use App\Enum\EntityStatusEnum;
 use App\Exception\ResourceNotFoundException;
-use App\Repository\AgentRepository;
+use App\Repository\Interface\AgentRepositoryInterface;
 use MapasCulturais\Entities\Agent;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -16,7 +16,7 @@ class AgentService
 
     public function __construct(
         private readonly SerializerInterface $serializer,
-        private readonly AgentRepository $repository
+        private readonly AgentRepositoryInterface $repository
     ) {
     }
 

@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Repository\Interface\TermRepositoryInterface;
 use Doctrine\Persistence\ObjectRepository;
 use MapasCulturais\Entities\Term;
 
-class TermRepository extends AbstractRepository
+class TermRepository extends AbstractRepository implements TermRepositoryInterface
 {
     private ObjectRepository $repository;
 

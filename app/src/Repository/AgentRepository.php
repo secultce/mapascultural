@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Enum\EntityStatusEnum;
+use App\Repository\Interface\AgentRepositoryInterface;
 use Doctrine\Persistence\ObjectRepository;
 use MapasCulturais\Entities\Agent;
 
-class AgentRepository extends AbstractRepository
+class AgentRepository extends AbstractRepository implements AgentRepositoryInterface
 {
     private ObjectRepository $repository;
 

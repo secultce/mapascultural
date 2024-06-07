@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Enum\EntityStatusEnum;
-use App\Repository\EventRepository;
+use App\Repository\Interface\EventRepositoryInterface;
 use MapasCulturais\Entities\Event;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -16,7 +16,7 @@ class EventService
 
     public function __construct(
         private readonly SerializerInterface $serializer,
-        private readonly EventRepository $repository,
+        private readonly EventRepositoryInterface $repository,
     ) {
     }
 

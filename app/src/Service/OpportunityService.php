@@ -6,7 +6,7 @@ namespace App\Service;
 
 use App\Enum\EntityStatusEnum;
 use App\Exception\ResourceNotFoundException;
-use App\Repository\OpportunityRepository;
+use App\Repository\Interface\OpportunityRepositoryInterface;
 use MapasCulturais\Entities\Opportunity;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -16,7 +16,7 @@ class OpportunityService
 
     public function __construct(
         private readonly SerializerInterface $serializer,
-        private readonly OpportunityRepository $repository,
+        private readonly OpportunityRepositoryInterface $repository,
     ) {
     }
 

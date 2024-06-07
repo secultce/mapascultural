@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Enum\EntityStatusEnum;
+use App\Repository\Interface\ProjectRepositoryInterface;
 use Doctrine\Persistence\ObjectRepository;
 use MapasCulturais\Entities\Project;
 
-class ProjectRepository extends AbstractRepository
+class ProjectRepository extends AbstractRepository implements ProjectRepositoryInterface
 {
     private ObjectRepository $repository;
 
