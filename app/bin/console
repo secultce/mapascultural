@@ -10,6 +10,16 @@ use App\Command\FixturesCommand;
 use App\Command\TestsCommand;
 use App\Command\WelcomeCommand;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Dotenv\Dotenv;
+
+$env = dirname(__DIR__, 1).'/.env';
+
+if (false === file_exists($env)) {
+    die('Please create a .env file in the root directory (/app/.env)'.PHP_EOL);
+}
+
+$dotenv = new Dotenv();
+$dotenv->load($env);
 
 $application = new Application();
 $entityManager = $app->em ?? null;
@@ -18,8 +28,11 @@ $application->addCommands([
     new WelcomeCommand(),
     new TestsCommand(),
     new CodeStyleCommand(),
-    new FixturesCommand($entityManager),
     new DebugRouterCommand(),
 ]);
+
+if ('local' === $_ENV['APP_ENV']) {
+    $application->addCommands([new FixturesCommand($entityManager)]);
+}
 
 $application->run();

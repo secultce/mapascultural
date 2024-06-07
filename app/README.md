@@ -451,11 +451,36 @@ php app/bin/console app:code-style
 
 :memo: Fixtures são dados falsos com a finalidade de testes.
 
+#### Configuração do ambiente
+
+Antes de executar os fixtures, é necessário criar um arquivo `.env` dentro da pasta app (/app/.env). Este arquivo deve conter a configuração de ambiente necessária. Um arquivo de exemplo chamado `.env.example` foi fornecido para facilitar esse processo.
+
+1. Copie o arquivo `.env.example` para `.env`:
+
+    ```sh
+    cp .env.example .env
+    ```
+
+2. Abra o arquivo `.env` e configure as variáveis de ambiente. Para fins de desenvolvimento, você pode definir a variável `APP_ENV` como `local`:
+
+    ```sh
+    APP_ENV=local
+    ```
+
+
+#### Executando os Fixtures
+
 
 Para executar o conjunto de fixtures basta entrar no container da aplicação e executar
 ```
 php app/bin/console app:fixtures
 ```
+> **Observação:**
+> Se o arquivo `.env` não for encontrado, você verá a seguinte mensagem de erro:
+>
+> ```sh
+> Please create a .env file in the root directory (/app/.env)
+> ```
 </details>
 
 <details>
