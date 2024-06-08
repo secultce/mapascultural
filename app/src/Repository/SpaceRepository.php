@@ -32,13 +32,18 @@ class SpaceRepository extends AbstractRepository implements SpaceRepositoryInter
     {
         return $this->repository
             ->createQueryBuilder('space')
+            ->where('space.status = :status')
+            ->setParameter('status', EntityStatusEnum::ENABLED->getValue())
             ->getQuery()
             ->getArrayResult();
     }
 
     public function find(int $id): Space
     {
-        $space = $this->repository->find($id);
+        $space = $this->repository->findOneBy([
+            'id' => $id,
+            'status' => EntityStatusEnum::ENABLED->getValue(),
+        ]);
 
         if (null === $space) {
             throw new ResourceNotFoundException();

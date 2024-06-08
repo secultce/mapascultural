@@ -25,13 +25,18 @@ class SealRepository extends AbstractRepository implements SealRepositoryInterfa
     {
         return $this->repository
             ->createQueryBuilder('seal')
+            ->where('seal.status = :status')
+            ->setParameter('status', EntityStatusEnum::ENABLED->getValue())
             ->getQuery()
             ->getArrayResult();
     }
 
     public function find(int $id): Seal
     {
-        $seal = $this->repository->find($id);
+        $seal = $this->repository->findOneBy([
+            'id' => $id,
+            'status' => EntityStatusEnum::ENABLED->getValue(),
+        ]);
 
         if (null === $seal) {
             throw new ResourceNotFoundException();

@@ -25,13 +25,18 @@ class EventRepository extends AbstractRepository implements EventRepositoryInter
     {
         return $this->repository
             ->createQueryBuilder('events')
+            ->where('events.status = :status')
+            ->setParameter('status', EntityStatusEnum::ENABLED->getValue())
             ->getQuery()
             ->getArrayResult();
     }
 
     public function find(int $id): Event
     {
-        $event = $this->repository->find($id);
+        $event = $this->repository->findOneBy([
+            'id' => $id,
+            'status' => EntityStatusEnum::ENABLED->getValue(),
+        ]);
 
         if (null === $event) {
             throw new ResourceNotFoundException();

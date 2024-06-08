@@ -24,13 +24,18 @@ class ProjectRepository extends AbstractRepository implements ProjectRepositoryI
     {
         return $this->repository
             ->createQueryBuilder('project')
+            ->where('project.status = :status')
+            ->setParameter('status', EntityStatusEnum::ENABLED->getValue())
             ->getQuery()
             ->getArrayResult();
     }
 
     public function find(int $id): Project
     {
-        $project = $this->repository->find($id);
+        $project = $this->repository->findOneBy([
+            'id' => $id,
+            'status' => EntityStatusEnum::ENABLED->getValue(),
+        ]);
 
         if (null === $project) {
             throw new ResourceNotFoundException();

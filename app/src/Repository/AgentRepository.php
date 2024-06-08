@@ -24,13 +24,18 @@ class AgentRepository extends AbstractRepository implements AgentRepositoryInter
     {
         return $this->repository
             ->createQueryBuilder('agent')
+            ->where('agent.status = :status')
+            ->setParameter('status', EntityStatusEnum::ENABLED->getValue())
             ->getQuery()
             ->getArrayResult();
     }
 
     public function find(int $id): Agent
     {
-        $agent = $this->repository->find($id);
+        $agent = $this->repository->findOneBy([
+            'id' => $id,
+            'status' => EntityStatusEnum::ENABLED->getValue(),
+        ]);
 
         if (null === $agent) {
             throw new ResourceNotFoundException();

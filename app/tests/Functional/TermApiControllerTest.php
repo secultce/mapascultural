@@ -41,7 +41,7 @@ class TermApiControllerTest extends AbstractTestCase
 
     public function testGetOneTermShouldReturnNotFound(): void
     {
-        $nonExistentId = 0;
+        $nonExistentId = 99999999;
         $response = $this->client->request(Request::METHOD_GET, self::BASE_URL.'/'.$nonExistentId);
 
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
