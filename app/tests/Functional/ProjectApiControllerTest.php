@@ -2,18 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Tests;
+namespace App\Tests\Functional;
 
-use App\DataFixtures\SpaceFixtures;
-use App\Tests\fixtures\SpaceTestFixtures;
+use App\DataFixtures\ProjectFixtures;
+use App\Tests\AbstractTestCase;
+use App\Tests\fixtures\ProjectTestFixtures;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class SpaceApiControllerTest extends AbstractTestCase
+class ProjectApiControllerTest extends AbstractTestCase
 {
-    private const BASE_URL = '/api/v2/spaces';
+    private const BASE_URL = '/api/v2/projects';
 
-    public function testGetSpacesShouldRetrieveAList(): void
+    public function testGetProjectsShouldRetrieveAList(): void
     {
         $response = $this->client->request(Request::METHOD_GET, self::BASE_URL);
         $content = json_decode($response->getContent());
@@ -22,7 +23,7 @@ class SpaceApiControllerTest extends AbstractTestCase
         $this->assertIsArray($content);
     }
 
-    public function testGetOneSpaceShouldRetrieveAObject(): void
+    public function testGetOneProjectShouldRetrieveAObject(): void
     {
         $response = $this->client->request(Request::METHOD_GET, self::BASE_URL.'/1');
         $content = json_decode($response->getContent());
@@ -31,24 +32,22 @@ class SpaceApiControllerTest extends AbstractTestCase
         $this->assertIsObject($content);
     }
 
-    public function testCreateSpaceShouldReturnCreatedSpace(): void
+    public function testCreateProjectShouldCreateAProject(): void
     {
-        $this->markTestSkipped();
-        $spaceTestFixtures = SpaceTestFixtures::partial();
+        $projectTestFixtures = ProjectTestFixtures::partial();
 
         $response = $this->client->request(Request::METHOD_POST, self::BASE_URL, [
-            'body' => $spaceTestFixtures->json(),
+            'body' => $projectTestFixtures->json(),
         ]);
 
-        $content = json_decode($response->getContent(), true);
         $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
-        $this->assertIsArray($content);
-        foreach ($spaceTestFixtures->toArray() as $key => $value) {
-            $this->assertEquals($value, $content[$key]);
-        }
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertEquals('Project Test', $content['name']);
     }
 
-    public function testDeleteSpaceShouldReturnSuccess(): void
+    public function testDeleteProjectShouldReturnSuccess(): void
     {
         $this->markTestSkipped();
         $response = $this->client->request(Request::METHOD_DELETE, self::BASE_URL.'/1');
@@ -59,34 +58,34 @@ class SpaceApiControllerTest extends AbstractTestCase
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
-    public function testUpdate(): void
+    public function testUpdateProjectShouldUpdateAProject(): void
     {
-        $spaceTestFixtures = SpaceTestFixtures::partial();
-        $url = sprintf(self::BASE_URL.'/%s', SpaceFixtures::SPACE_ID_3);
+        $projectTestFixtures = ProjectTestFixtures::partial();
+        $url = sprintf(self::BASE_URL.'/%s', ProjectFixtures::PROJECT_ID_2);
 
         $response = $this->client->request(Request::METHOD_PATCH, $url, [
-            'body' => $spaceTestFixtures->json(),
+            'body' => $projectTestFixtures->json(),
         ]);
 
         $content = json_decode($response->getContent(), true);
         $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
         $this->assertIsArray($content);
-        foreach ($spaceTestFixtures->toArray() as $key => $value) {
+        foreach ($projectTestFixtures->toArray() as $key => $value) {
             $this->assertEquals($value, $content[$key]);
         }
     }
 
-    public function testUpdateNotFoundedResource(): void
+    public function testUpdateNotFoundedProjectResource(): void
     {
-        $spaceTestFixtures = SpaceTestFixtures::partial();
+        $projectTestFixtures = ProjectTestFixtures::partial();
         $url = sprintf(self::BASE_URL.'/%s', 1024);
 
         $response = $this->client->request(Request::METHOD_PATCH, $url, [
-            'body' => $spaceTestFixtures->json(),
+            'body' => $projectTestFixtures->json(),
         ]);
 
         $error = [
-            'error' => 'Space not found',
+            'error' => 'The resource was not found.',
         ];
 
         $content = json_decode($response->getContent(false), true);

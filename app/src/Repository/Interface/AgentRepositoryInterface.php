@@ -8,7 +8,7 @@ use MapasCulturais\Entities\Agent;
 
 interface AgentRepositoryInterface
 {
-    public function find(int $id): ?Agent;
+    public function find(int $id): Agent;
 
     public function findAll(): array;
 

@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests;
+namespace App\Tests\Functional;
 
 use App\DataFixtures\EventFixtures;
+use App\Tests\AbstractTestCase;
 use App\Tests\fixtures\EventTestFixtures;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -93,11 +94,11 @@ class EventApiControllerTest extends AbstractTestCase
         ]);
 
         $error = [
-            'error' => 'Event not found or already deleted.',
+            'error' => 'The resource was not found.',
         ];
 
         $content = json_decode($response->getContent(false), true);
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
         $this->assertIsArray($content);
         $this->assertEquals($error, $content);
     }

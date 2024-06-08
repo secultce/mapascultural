@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Enum\EntityStatusEnum;
+use App\Exception\ResourceNotFoundException;
 use App\Repository\Interface\AgentRepositoryInterface;
 use Doctrine\Persistence\ObjectRepository;
 use MapasCulturais\Entities\Agent;
@@ -27,9 +28,15 @@ class AgentRepository extends AbstractRepository implements AgentRepositoryInter
             ->getArrayResult();
     }
 
-    public function find(int $id): ?Agent
+    public function find(int $id): Agent
     {
-        return $this->repository->find($id);
+        $agent = $this->repository->find($id);
+
+        if (null === $agent) {
+            throw new ResourceNotFoundException();
+        }
+
+        return $agent;
     }
 
     public function save(Agent $agent): void

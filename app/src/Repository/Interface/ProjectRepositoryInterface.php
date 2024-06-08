@@ -8,7 +8,7 @@ use MapasCulturais\Entities\Project;
 
 interface ProjectRepositoryInterface
 {
-    public function find(int $id): ?Project;
+    public function find(int $id): Project;
 
     public function findAll(): array;
 

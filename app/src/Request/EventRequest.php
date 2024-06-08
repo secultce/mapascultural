@@ -44,7 +44,7 @@ class EventRequest
     {
         $event = $this->repository->find((int) $params['id']);
 
-        if (!$event || EntityStatusEnum::TRASH->getValue() === $event->status) {
+        if (null === $event || EntityStatusEnum::TRASH->getValue() === $event->status) {
             throw new Exception('Event not found or already deleted.');
         }
 
@@ -54,7 +54,7 @@ class EventRequest
     public function validateUpdate(): array
     {
         $jsonData = $this->request->getContent();
-        $data = json_decode($jsonData, true);
+        $data = json_decode($jsonData, associative: true);
 
         return $data;
     }
