@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Enum\EntityStatusEnum;
-use App\Exception\ResourceNotFoundException;
 use App\Repository\Interface\AgentRepositoryInterface;
 use App\Repository\Interface\SealRepositoryInterface;
 use MapasCulturais\Entities\Seal;
@@ -29,32 +27,14 @@ class SealService extends AbstractService
         return $seal;
     }
 
-    /**
-     * @throws ResourceNotFoundException
-     */
-    public function delete(int $id): true
+    public function delete(int $id): void
     {
-        $seal = $this->sealRepository->find($id);
-
-        if (null === $seal || EntityStatusEnum::TRASH->getValue() === $seal->status) {
-            throw new ResourceNotFoundException('Seal not found');
-        }
-
-        $this->sealRepository->softDelete($seal);
-
-        return true;
+        $this->sealRepository->softDelete($id);
     }
 
-    /**
-     * @throws ResourceNotFoundException
-     */
     public function update(int $id, object $data): Seal
     {
         $sealFromDB = $this->sealRepository->find($id);
-
-        if (null === $sealFromDB || EntityStatusEnum::TRASH->getValue() === $sealFromDB->status) {
-            throw new ResourceNotFoundException('Seal not found');
-        }
 
         $sealUpdated = $this->serializer->denormalize(
             data: $data,

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Exception\ResourceNotFoundException;
 use App\Repository\Interface\TermRepositoryInterface;
 use Doctrine\Persistence\ObjectRepository;
 use MapasCulturais\Entities\Term;
@@ -27,9 +28,15 @@ class TermRepository extends AbstractRepository implements TermRepositoryInterfa
             ->getArrayResult();
     }
 
-    public function find(int $id): ?Term
+    public function find(int $id): Term
     {
-        return $this->repository->find($id);
+        $term = $this->repository->find($id);
+
+        if (null === $term) {
+            throw new ResourceNotFoundException();
+        }
+
+        return $term;
     }
 
     public function save(Term $term): void

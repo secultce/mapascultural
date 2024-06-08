@@ -42,7 +42,7 @@ class EventRepository extends AbstractRepository implements EventRepositoryInter
 
     public function findEventsBySpaceId(int $spaceId): array
     {
-        $queryBuilder = $this->getEntityManager()
+        $queryBuilder = $this->entityManager
             ->createQueryBuilder()
             ->select([
                 'e.id',
@@ -69,8 +69,9 @@ class EventRepository extends AbstractRepository implements EventRepositoryInter
         $event->save();
     }
 
-    public function softDelete(Event $event): void
+    public function softDelete(int $id): void
     {
+        $event = $this->find($id);
         $event->setStatus(EntityStatusEnum::TRASH->getValue());
         $this->save($event);
     }
