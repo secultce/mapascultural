@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Enum\EntityStatusEnum;
+use App\Exception\ResourceNotFoundException;
 use App\Repository\Interface\SealRepositoryInterface;
 use Doctrine\Persistence\ObjectRepository;
 use MapasCulturais\Entities\Seal;
@@ -28,9 +29,15 @@ class SealRepository extends AbstractRepository implements SealRepositoryInterfa
             ->getArrayResult();
     }
 
-    public function find(int $id): ?Seal
+    public function find(int $id): Seal
     {
-        return $this->repository->find($id);
+        $seal = $this->repository->find($id);
+
+        if (null === $seal) {
+            throw new ResourceNotFoundException();
+        }
+
+        return $seal;
     }
 
     public function save(Seal $seal): void
@@ -39,10 +46,11 @@ class SealRepository extends AbstractRepository implements SealRepositoryInterfa
         $this->mapaCulturalEntityManager->flush();
     }
 
-    public function softDelete(Seal $space): void
+    public function softDelete(int $id): void
     {
-        $space->setStatus(EntityStatusEnum::TRASH->getValue());
-        $this->mapaCulturalEntityManager->persist($space);
+        $seal = $this->find($id);
+        $seal->setStatus(EntityStatusEnum::TRASH->getValue());
+        $this->mapaCulturalEntityManager->persist($seal);
         $this->mapaCulturalEntityManager->flush();
     }
 }

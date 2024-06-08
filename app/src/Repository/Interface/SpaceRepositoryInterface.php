@@ -8,11 +8,11 @@ use MapasCulturais\Entities\Space;
 
 interface SpaceRepositoryInterface
 {
-    public function find(int $id): ?Space;
+    public function find(int $id): Space;
 
     public function findAll(): array;
 
     public function save(Space $space): void;
 
-    public function softDelete(Space $space): void;
+    public function softDelete(int $id): void;
 }

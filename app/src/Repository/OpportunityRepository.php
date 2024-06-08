@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Enum\EntityStatusEnum;
+use App\Exception\ResourceNotFoundException;
 use App\Repository\Interface\OpportunityRepositoryInterface;
 use Doctrine\Persistence\ObjectRepository;
 use MapasCulturais\Entities\AgentOpportunity;
@@ -28,9 +29,17 @@ class OpportunityRepository extends AbstractRepository implements OpportunityRep
             ->getArrayResult();
     }
 
-    public function find(int $id): ?Opportunity
+    public function find(int $id): Opportunity
     {
-        return $this->repository->find($id);
+        $opportunity = $this->repository->findOneBy([
+            'status' => EntityStatusEnum::ENABLED,
+        ]);
+
+        if (null === $opportunity) {
+            throw new ResourceNotFoundException();
+        }
+
+        return $opportunity;
     }
 
     public function save(Opportunity $opportunity): void
@@ -52,8 +61,9 @@ class OpportunityRepository extends AbstractRepository implements OpportunityRep
         return $queryBuilder->getQuery()->getArrayResult();
     }
 
-    public function softDelete(Opportunity $opportunity): void
+    public function softDelete(int $id): void
     {
+        $opportunity = $this->find($id);
         $opportunity->setStatus(EntityStatusEnum::TRASH->getValue());
         $this->save($opportunity);
     }
