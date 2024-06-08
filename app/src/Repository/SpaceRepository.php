@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Enum\EntityStatusEnum;
+use App\Repository\Interface\SpaceRepositoryInterface;
 use Doctrine\Persistence\ObjectRepository;
 use MapasCulturais\Entities\Space;
 
-class SpaceRepository extends AbstractRepository
+class SpaceRepository extends AbstractRepository implements SpaceRepositoryInterface
 {
     private ObjectRepository $repository;
 

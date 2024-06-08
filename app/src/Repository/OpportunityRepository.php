@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Enum\EntityStatusEnum;
+use App\Repository\Interface\OpportunityRepositoryInterface;
 use Doctrine\Persistence\ObjectRepository;
 use MapasCulturais\Entities\AgentOpportunity;
 use MapasCulturais\Entities\Opportunity;
 
-class OpportunityRepository extends AbstractRepository
+class OpportunityRepository extends AbstractRepository implements OpportunityRepositoryInterface
 {
     private ObjectRepository $repository;
 

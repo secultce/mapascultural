@@ -6,7 +6,7 @@ namespace App\Controller\Api;
 
 use App\Exception\ResourceNotFoundException;
 use App\Exception\ValidatorException;
-use App\Repository\SealRepository;
+use App\Repository\Interface\SealRepositoryInterface;
 use App\Request\SealRequest;
 use App\Service\SealService;
 use Exception;
@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 readonly class SealApiController
 {
     public function __construct(
-        private SealRepository $repository,
+        private SealRepositoryInterface $repository,
         private SealRequest $sealRequest,
         private SealService $sealService,
     ) {

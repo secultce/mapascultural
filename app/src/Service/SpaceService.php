@@ -6,7 +6,7 @@ namespace App\Service;
 
 use App\Enum\EntityStatusEnum;
 use App\Exception\ResourceNotFoundException;
-use App\Repository\SpaceRepository;
+use App\Repository\Interface\SpaceRepositoryInterface;
 use MapasCulturais\Entities\Space;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -16,7 +16,7 @@ class SpaceService
 
     public function __construct(
         private readonly SerializerInterface $serializer,
-        private readonly SpaceRepository $repository
+        private readonly SpaceRepositoryInterface $repository
     ) {
     }
 

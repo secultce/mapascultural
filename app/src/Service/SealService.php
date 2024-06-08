@@ -6,17 +6,17 @@ namespace App\Service;
 
 use App\Enum\EntityStatusEnum;
 use App\Exception\ResourceNotFoundException;
-use App\Repository\AgentRepository;
-use App\Repository\SealRepository;
+use App\Repository\Interface\AgentRepositoryInterface;
+use App\Repository\Interface\SealRepositoryInterface;
 use MapasCulturais\Entities\Seal;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class SealService extends AbstractService
 {
     public function __construct(
-        private readonly AgentRepository $agentRepository,
+        private readonly AgentRepositoryInterface $agentRepository,
         private readonly SerializerInterface $serializer,
-        private readonly SealRepository $sealRepository,
+        private readonly SealRepositoryInterface $sealRepository,
     ) {
     }
 
