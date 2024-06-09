@@ -417,6 +417,13 @@ Para executar os testes veja a seção <a href="#console-commands">Console Comma
 
 ---
 
+## DI (Injeção de dependência)
+Com a injeção de dependência diminuímos o acoplamento das nossas classes. E a razão para isso ser tão importante está no princípio da inversão de dependência em que o código deve depender de abstrações e não de implementações concretas.
+
+Documentação PHP-DI: https://php-di.org
+
+Todo o código se encontra no diretório `/app/config`, no arquivo `di.php`.
+
 ## Console Commands
 
 
