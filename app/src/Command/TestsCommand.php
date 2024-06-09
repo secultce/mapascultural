@@ -16,6 +16,7 @@ class TestsCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('-------------------------------------------------------');
+        passthru('php app/bin/console app:fixtures');
         passthru("php vendor/bin/phpunit {$input->getArgument('path')}");
         $output->writeln('-------------------------------------------------------');
 
