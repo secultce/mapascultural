@@ -5,22 +5,23 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Repository\Interface\OpportunityRepositoryInterface;
+use App\Service\Interface\OpportunityServiceInterface;
 use MapasCulturais\Entities\Opportunity;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class OpportunityService
+class OpportunityService implements OpportunityServiceInterface
 {
     public const FILE_TYPES = '/src/conf/opportunity-types.php';
 
     public function __construct(
-        private readonly SerializerInterface $serializer,
         private readonly OpportunityRepositoryInterface $repository,
+        private readonly SerializerInterface $serializer
     ) {
     }
 
     public function getTypes(): array
     {
-        $typesFromConf = (require dirname(__DIR__, 3).'/src/conf/opportunity-types.php')['items'] ?? [];
+        $typesFromConf = (require dirname(__DIR__, 3).self::FILE_TYPES)['items'] ?? [];
 
         return array_map(
             fn ($key, $item) => ['id' => $key, 'name' => $item['name']],
@@ -44,7 +45,7 @@ class OpportunityService
         return $opportunityUpdated;
     }
 
-    public function create(array $data): Opportunity
+    public function create(mixed $data): Opportunity
     {
         $opportunity = new Opportunity();
 

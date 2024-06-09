@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
-use App\Repository\ProjectRepository;
+use App\Repository\Interface\ProjectRepositoryInterface;
 use App\Request\ProjectRequest;
-use App\Service\ProjectService;
+use App\Service\Interface\ProjectServiceInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProjectApiController extends AbstractApiController
 {
     public function __construct(
-        private ProjectService $projectService,
-        private ProjectRequest $projectRequest,
-        private ProjectRepository $repository
+        private readonly ProjectRepositoryInterface $repository,
+        private readonly ProjectServiceInterface $projectService,
+        private readonly ProjectRequest $projectRequest
     ) {
     }
 

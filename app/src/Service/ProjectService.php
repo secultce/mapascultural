@@ -6,18 +6,19 @@ namespace App\Service;
 
 use App\Exception\FieldRequiredException;
 use App\Repository\Interface\ProjectRepositoryInterface;
+use App\Service\Interface\ProjectServiceInterface;
 use MapasCulturais\Entities\Project;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class ProjectService
+class ProjectService implements ProjectServiceInterface
 {
     public function __construct(
-        private SerializerInterface $serializer,
-        private ProjectRepositoryInterface $projectRepository,
+        private readonly ProjectRepositoryInterface $projectRepository,
+        private readonly SerializerInterface $serializer
     ) {
     }
 
-    public function create($data): Project
+    public function create(mixed $data): Project
     {
         if (true === empty($data->name)) {
             throw new FieldRequiredException('The name field is required.');

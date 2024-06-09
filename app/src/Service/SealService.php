@@ -6,19 +6,20 @@ namespace App\Service;
 
 use App\Repository\Interface\AgentRepositoryInterface;
 use App\Repository\Interface\SealRepositoryInterface;
+use App\Service\Interface\SealServiceInterface;
 use MapasCulturais\Entities\Seal;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class SealService extends AbstractService
+class SealService extends AbstractService implements SealServiceInterface
 {
     public function __construct(
         private readonly AgentRepositoryInterface $agentRepository,
-        private readonly SerializerInterface $serializer,
         private readonly SealRepositoryInterface $sealRepository,
+        private readonly SerializerInterface $serializer
     ) {
     }
 
-    public function create(array $data): mixed
+    public function create(mixed $data): Seal
     {
         $seal = $this->serializer->denormalize($data, Seal::class);
         $this->setProperty($seal, 'owner', $this->agentRepository->find(1));

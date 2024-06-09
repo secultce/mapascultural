@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
-use App\Repository\OpportunityRepository;
+use App\Repository\Interface\OpportunityRepositoryInterface;
 use App\Request\OpportunityRequest;
-use App\Service\OpportunityService;
+use App\Service\Interface\OpportunityServiceInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class OpportunityApiController extends AbstractApiController
 {
     public function __construct(
-        private OpportunityRequest $opportunityRequest,
-        private OpportunityService $opportunityService,
-        private OpportunityRepository $repository
+        private readonly OpportunityRepositoryInterface $repository,
+        private readonly OpportunityServiceInterface $opportunityService,
+        private readonly OpportunityRequest $opportunityRequest
     ) {
     }
 
