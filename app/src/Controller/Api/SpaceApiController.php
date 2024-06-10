@@ -6,18 +6,18 @@ namespace App\Controller\Api;
 
 use App\Exception\FieldInvalidException;
 use App\Exception\FieldRequiredException;
-use App\Repository\SpaceRepository;
+use App\Repository\Interface\SpaceRepositoryInterface;
 use App\Request\SpaceRequest;
-use App\Service\SpaceService;
+use App\Service\Interface\SpaceServiceInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class SpaceApiController extends AbstractApiController
 {
     public function __construct(
-        private SpaceRepository $repository,
-        private SpaceRequest $spaceRequest,
-        private SpaceService $spaceService
+        private readonly SpaceRepositoryInterface $repository,
+        private readonly SpaceServiceInterface $spaceService,
+        private readonly SpaceRequest $spaceRequest
     ) {
     }
 

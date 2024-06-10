@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Exception\FieldRequiredException;
-use App\Repository\EventRepository;
+use App\Repository\Interface\EventRepositoryInterface;
 use App\Request\EventRequest;
-use App\Service\EventService;
+use App\Service\Interface\EventServiceInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class EventApiController extends AbstractApiController
 {
     public function __construct(
-        private EventService $eventService,
-        private EventRepository $repository,
-        private EventRequest $eventRequest
+        private readonly EventRepositoryInterface $repository,
+        private readonly EventServiceInterface $eventService,
+        private readonly EventRequest $eventRequest
     ) {
     }
 

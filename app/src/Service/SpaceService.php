@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Repository\Interface\SpaceRepositoryInterface;
+use App\Service\Interface\SpaceServiceInterface;
 use MapasCulturais\Entities\Space;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class SpaceService
+class SpaceService implements SpaceServiceInterface
 {
     public const FILE_TYPES = '/src/conf/space-types.php';
 
@@ -29,7 +30,7 @@ class SpaceService
         );
     }
 
-    public function create($data): Space
+    public function create(mixed $data): Space
     {
         $space = new Space();
 
@@ -44,7 +45,7 @@ class SpaceService
         return $space;
     }
 
-    public function update($id, $data): Space
+    public function update(int $id, object $data): Space
     {
         $spaceFromDB = $this->repository->find($id);
         $spaceUpdated = $this->serializer->denormalize($data, Space::class, context: ['object_to_populate' => $spaceFromDB]);

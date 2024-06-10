@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Exception\FieldRequiredException;
-use App\Repository\AgentRepository;
+use App\Repository\Interface\AgentRepositoryInterface;
 use App\Request\AgentRequest;
-use App\Service\AgentService;
+use App\Service\Interface\AgentServiceInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class AgentApiController extends AbstractApiController
 {
     public function __construct(
-        private AgentService $agentService,
-        private AgentRequest $agentRequest,
-        private AgentRepository $repository
+        private readonly AgentRepositoryInterface $repository,
+        private readonly AgentServiceInterface $agentService,
+        private readonly AgentRequest $agentRequest
     ) {
     }
 

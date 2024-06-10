@@ -6,16 +6,16 @@ namespace App\Controller\Api;
 
 use App\Repository\Interface\SealRepositoryInterface;
 use App\Request\SealRequest;
-use App\Service\SealService;
+use App\Service\Interface\SealServiceInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class SealApiController extends AbstractApiController
 {
     public function __construct(
-        private SealRepositoryInterface $repository,
-        private SealRequest $sealRequest,
-        private SealService $sealService,
+        private readonly SealRepositoryInterface $repository,
+        private readonly SealServiceInterface $sealService,
+        private readonly SealRequest $sealRequest
     ) {
     }
 

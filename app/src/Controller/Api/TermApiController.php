@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
-use App\Repository\TermRepository;
-use App\Request\TermRequest;
+use App\Repository\Interface\TermRepositoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class TermApiController extends AbstractApiController
 {
     public function __construct(
-        private TermRepository $repository,
-        private TermRequest $request
+        private readonly TermRepositoryInterface $repository
     ) {
     }
 

@@ -16,6 +16,18 @@ use App\Repository\ProjectRepository;
 use App\Repository\SealRepository;
 use App\Repository\SpaceRepository;
 use App\Repository\TermRepository;
+use App\Service\AgentService;
+use App\Service\EventService;
+use App\Service\Interface\AgentServiceInterface;
+use App\Service\Interface\EventServiceInterface;
+use App\Service\Interface\OpportunityServiceInterface;
+use App\Service\Interface\ProjectServiceInterface;
+use App\Service\Interface\SealServiceInterface;
+use App\Service\Interface\SpaceServiceInterface;
+use App\Service\OpportunityService;
+use App\Service\ProjectService;
+use App\Service\SealService;
+use App\Service\SpaceService;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -23,6 +35,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 return [
     SerializerInterface::class => fn () => new Serializer([new ObjectNormalizer()]),
     ...repositories(),
+    ...services(),
 ];
 
 function repositories(): array
@@ -35,5 +48,17 @@ function repositories(): array
         SealRepositoryInterface::class => fn () => new SealRepository(),
         SpaceRepositoryInterface::class => fn () => new SpaceRepository(),
         TermRepositoryInterface::class => fn () => new TermRepository(),
+    ];
+}
+
+function services(): array
+{
+    return [
+        AgentServiceInterface::class => fn () => new AgentService(new AgentRepository(), new Serializer([new ObjectNormalizer()])),
+        EventServiceInterface::class => fn () => new EventService(new EventRepository(), new Serializer([new ObjectNormalizer()])),
+        OpportunityServiceInterface::class => fn () => new OpportunityService(new OpportunityRepository(), new Serializer([new ObjectNormalizer()])),
+        ProjectServiceInterface::class => fn () => new ProjectService(new ProjectRepository(), new Serializer([new ObjectNormalizer()])),
+        SealServiceInterface::class => fn () => new SealService(new AgentRepository(), new SealRepository(), new Serializer([new ObjectNormalizer()])),
+        SpaceServiceInterface::class => fn () => new SpaceService(new Serializer([new ObjectNormalizer()]), new SpaceRepository()),
     ];
 }

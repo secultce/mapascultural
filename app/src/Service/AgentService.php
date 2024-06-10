@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Repository\Interface\AgentRepositoryInterface;
+use App\Service\Interface\AgentServiceInterface;
 use MapasCulturais\Entities\Agent;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class AgentService
+class AgentService implements AgentServiceInterface
 {
     public const FILE_TYPES = '/src/conf/agent-types.php';
 
     public function __construct(
-        private readonly SerializerInterface $serializer,
-        private readonly AgentRepositoryInterface $repository
+        private readonly AgentRepositoryInterface $repository,
+        private readonly SerializerInterface $serializer
     ) {
     }
 
@@ -45,7 +46,7 @@ class AgentService
         return $agentUpdated;
     }
 
-    public function create($data): Agent
+    public function create(mixed $data): Agent
     {
         $agent = new Agent();
         $agent->setName($data->name);
