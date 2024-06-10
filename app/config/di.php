@@ -31,9 +31,12 @@ use App\Service\SpaceService;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 return [
     SerializerInterface::class => fn () => new Serializer([new ObjectNormalizer()]),
+    ValidatorInterface::class => fn () => Validation::createValidatorBuilder()->enableAttributeMapping()->getValidator(),
     ...repositories(),
     ...services(),
 ];

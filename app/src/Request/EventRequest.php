@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 class EventRequest
 {
     public function __construct(
-        private Request $request
+        private readonly Request $request
     ) {
     }
 
