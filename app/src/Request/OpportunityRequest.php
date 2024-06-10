@@ -10,11 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 class OpportunityRequest
 {
-    protected Request $request;
-
-    public function __construct()
-    {
-        $this->request = new Request();
+    public function __construct(
+        private readonly Request $request
+    ) {
     }
 
     public function validatePost(): array
