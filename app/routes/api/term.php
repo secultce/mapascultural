@@ -11,5 +11,6 @@ return [
     ],
     '/api/v2/terms/{id}' => [
         Request::METHOD_GET => [TermApiController::class, 'getOne'],
+        Request::METHOD_DELETE => [TermApiController::class, 'remove'],
     ],
 ];

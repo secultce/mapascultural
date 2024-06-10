@@ -46,4 +46,20 @@ class TermApiControllerTest extends AbstractTestCase
 
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
+
+    public function testDeleteTermShouldReturnNoContent(): void
+    {
+        $response = $this->client->request(Request::METHOD_DELETE, self::BASE_URL.'/1');
+
+        $this->assertEquals(Response::HTTP_NO_CONTENT, $response->getStatusCode());
+    }
+
+    public function testDeletedTermShouldReturnNotFound(): void
+    {
+        $this->client->request(Request::METHOD_DELETE, self::BASE_URL.'/2');
+
+        $response = $this->client->request(Request::METHOD_DELETE, self::BASE_URL.'/2');
+
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
+    }
 }
