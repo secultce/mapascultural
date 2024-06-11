@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional;
 
 use App\Tests\AbstractTestCase;
+use App\Tests\fixtures\TermTestFixtures;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -45,6 +46,23 @@ class TermApiControllerTest extends AbstractTestCase
         $response = $this->client->request(Request::METHOD_GET, self::BASE_URL.'/'.$nonExistentId);
 
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
+    }
+
+    public function testCreateTermShouldCreateANewTerm(): void
+    {
+        $termTestFixtures = TermTestFixtures::partial();
+
+        $response = $this->client->request(Request::METHOD_POST, self::BASE_URL, [
+            'body' => $termTestFixtures->json(),
+        ]);
+
+        $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+
+        foreach ($termTestFixtures->toArray() as $key => $value) {
+            $this->assertEquals($value, $content[$key]);
+        }
     }
 
     public function testDeleteTermShouldReturnNoContent(): void

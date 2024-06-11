@@ -13,4 +13,6 @@ interface TermRepositoryInterface
     public function findAll(): array;
 
     public function save(Term $term): void;
+
+    public function delete(Term $term): void;
 }
