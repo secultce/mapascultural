@@ -17,7 +17,7 @@ class TestsCommand extends Command
     {
         $output->writeln('-------------------------------------------------------');
         passthru('php app/bin/console app:fixtures');
-        passthru("php vendor/bin/phpunit {$input->getArgument('path')}");
+        passthru("php vendor/bin/phpunit {$input->getArgument('path')} --testdox --colors=always");
         $output->writeln('-------------------------------------------------------');
 
         return Command::SUCCESS;

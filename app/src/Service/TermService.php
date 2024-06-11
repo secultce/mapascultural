@@ -6,8 +6,6 @@ namespace App\Service;
 
 use App\Repository\Interface\TermRepositoryInterface;
 use App\Service\Interface\TermServiceInterface;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Exception;
 use MapasCulturais\Entities\Term;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -21,13 +19,7 @@ class TermService extends AbstractService implements TermServiceInterface
 
     public function create($data): Term
     {
-        try {
-            $term = $this->serializer->denormalize($data, Term::class);
-            $this->termRepository->save($term);
-        } catch (UniqueConstraintViolationException) {
-            throw new Exception('Term already exists');
-        }
-
+        $term = $this->serializer->denormalize($data, Term::class);
         $this->termRepository->save($term);
 
         return $term;
