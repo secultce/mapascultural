@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Request;
 
 use App\Exception\FieldRequiredException;
-use App\Exception\InvalidRequestException;
 use Symfony\Component\HttpFoundation\Request;
 
 class AgentRequest
@@ -20,20 +19,12 @@ class AgentRequest
         $jsonData = $this->request->getContent();
         $data = json_decode($jsonData, associative: true);
 
-        $requiredFields = ['type', 'name', 'shortDescription', 'terms'];
+        $requiredFields = ['type', 'name', 'shortDescription'];
 
         foreach ($requiredFields as $field) {
             if (false === isset($data[$field])) {
                 throw new FieldRequiredException(ucfirst($field));
             }
-        }
-
-        if (
-            false === isset($data['type'])
-            || false === is_array($data['terms'])
-            || false === is_array($data['terms']['area'])
-        ) {
-            throw new InvalidRequestException('The "terms" field must be an object with a property "area" which is an array.');
         }
 
         return $data;

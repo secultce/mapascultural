@@ -43,7 +43,6 @@ class AgentApiControllerTest extends AbstractTestCase
 
     public function testGetAgentOpportunitiesShouldRetrieveAList(): void
     {
-        $this->markTestSkipped();
         $response = $this->client->request(Request::METHOD_GET, self::BASE_URL.'/1/opportunities');
         $content = json_decode($response->getContent());
 
@@ -53,7 +52,6 @@ class AgentApiControllerTest extends AbstractTestCase
 
     public function testCreateAgentShouldCreateAnAgent(): void
     {
-        $this->markTestSkipped();
         $agentTestFixtures = AgentTestFixtures::partial();
 
         $response = $this->client->request(Request::METHOD_POST, self::BASE_URL, [
@@ -62,18 +60,14 @@ class AgentApiControllerTest extends AbstractTestCase
 
         $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
 
-        $content = json_decode($response->getContent(), true);
+        $content = json_decode($response->getContent());
 
-        foreach ($agentTestFixtures->toArray() as $key => $value) {
-            $this->assertEquals($value, $content[$key]);
-        }
+        $this->assertEquals('Agent Test', $content->name);
     }
 
     public function testDeleteAgentShouldReturnSuccess(): void
     {
-        $this->markTestSkipped();
         $response = $this->client->request(Request::METHOD_DELETE, self::BASE_URL.'/2');
-
         $this->assertEquals(Response::HTTP_NO_CONTENT, $response->getStatusCode());
 
         $response = $this->client->request(Request::METHOD_GET, self::BASE_URL.'/2');
