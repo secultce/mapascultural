@@ -21,6 +21,16 @@ class TermRequest
 
     public function validatePost(): array
     {
+        return $this->validateTerm(Request::METHOD_POST);
+    }
+
+    public function validatePatch(): array
+    {
+        return $this->validateTerm(Request::METHOD_PATCH);
+    }
+
+    public function validateTerm(string $validatorGroup): array
+    {
         $data = json_decode(
             json: $this->request->getContent(),
             associative: true
@@ -28,7 +38,7 @@ class TermRequest
 
         $term = $this->serializer->denormalize($data, TermDto::class);
 
-        $violations = $this->validator->validate($term, groups: ['post']);
+        $violations = $this->validator->validate($term, groups: [$validatorGroup]);
 
         if (0 < count($violations)) {
             throw new ValidatorException(violations: $violations);

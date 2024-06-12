@@ -25,6 +25,21 @@ class TermService extends AbstractService implements TermServiceInterface
         return $term;
     }
 
+    public function update(int $id, array $termData): Term
+    {
+        $termFromDB = $this->termRepository->find($id);
+
+        $termUpdated = $this->serializer->denormalize(
+            data: $termData,
+            type: Term::class,
+            context: ['object_to_populate' => $termFromDB]
+        );
+
+        $this->termRepository->save($termUpdated);
+
+        return $termUpdated;
+    }
+
     public function removeById(int $id): void
     {
         $term = $this->termRepository->find($id);

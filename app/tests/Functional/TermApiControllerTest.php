@@ -74,9 +74,38 @@ class TermApiControllerTest extends AbstractTestCase
 
     public function testDeletedTermShouldReturnNotFound(): void
     {
-        $this->client->request(Request::METHOD_DELETE, self::BASE_URL.'/2');
+        $this->client->request(Request::METHOD_DELETE, self::BASE_URL.'/202');
 
-        $response = $this->client->request(Request::METHOD_DELETE, self::BASE_URL.'/2');
+        $response = $this->client->request(Request::METHOD_DELETE, self::BASE_URL.'/202');
+
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
+    }
+
+    public function  testTermUpdateShouldReturnUpdatedTerm(): void
+    {
+        $termTestFixtures = TermTestFixtures::partial();
+
+        $response = $this->client->request(Request::METHOD_PATCH, self::BASE_URL.'/2', [
+            'body' => $termTestFixtures->json(),
+        ]);
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertIsArray($content);
+        $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
+        foreach ($termTestFixtures->toArray() as $key => $value) {
+            $this->assertEquals($value, $content[$key]);
+        }
+    }
+
+    public function testUpdateATermThatNotExists(): void
+    {
+        $response = $this->client->request(Request::METHOD_PATCH, self::BASE_URL.'/999', [
+            'body' => json_encode([
+                'taxonomy' => 'update',
+                'term' => 'update',
+            ]),
+        ]);
 
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
