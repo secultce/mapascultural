@@ -80,4 +80,71 @@ class TermApiControllerTest extends AbstractTestCase
 
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
+
+    /**
+     * @dataProvider termDataProvider
+     */
+    public function testTermValidations(array $termData, array $expectedMessages): void
+    {
+        $this->validateTerm($termData, $expectedMessages);
+    }
+
+    private function validateTerm(array $termData, array $expectedMessages): void
+    {
+        $response = $this->client->request(Request::METHOD_POST, self::BASE_URL, [
+            'json' => $termData,
+        ]);
+
+        $statusCode = $response->getStatusCode();
+        $responseData = $response->toArray(false);
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $statusCode);
+        $this->assertEquals('The provided data violates one or more constraints.', $responseData['error']);
+
+        $actualMessages = array_map(function ($fieldError) {
+            return $fieldError['message'];
+        }, $responseData['fields']);
+
+        $this->assertEquals($expectedMessages, $actualMessages);
+    }
+
+    public static function termDataProvider(): array
+    {
+        return [
+            'blank fields' => [
+                'termData' => [
+                    'taxonomy' => '',
+                    'term' => '',
+                    'description' => '',
+                ],
+                'expectedMessages' => [
+                    'This value should not be blank.',
+                    'This value should not be blank.',
+                    'This value should not be blank.',
+                ],
+            ],
+            'invalid type fields' => [
+                'termData' => [
+                    'taxonomy' => 123,
+                    'term' => 123,
+                    'description' => 123,
+                ],
+                'expectedMessages' => [
+                    'This value should be of type string.',
+                    'This value should be of type string.',
+                    'This value should be of type string.',
+                ],
+            ],
+            'term already exists' => [
+                'termData' => [
+                    'taxonomy' => 'existing_taxonomy',
+                    'term' => 'Arqueologia',
+                    'description' => 'existing_description',
+                ],
+                'expectedMessages' => [
+                    'This value is already used.',
+                ],
+            ],
+        ];
+    }
 }
