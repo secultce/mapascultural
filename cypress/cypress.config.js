@@ -2,7 +2,7 @@ const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
     e2e: {
-        baseUrl: 'https://redesign.testes.map.as',
+        baseUrl: 'http://localhost',
         chromeWebSecurity: false,
         setupNodeEvents(on, config) {
         },
