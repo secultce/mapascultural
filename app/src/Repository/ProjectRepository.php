@@ -50,7 +50,7 @@ class ProjectRepository extends AbstractRepository implements ProjectRepositoryI
         $this->mapaCulturalEntityManager->flush();
     }
 
-    public function softDelete(Project $project): void
+    public function remove(Project $project): void
     {
         $project->setStatus(EntityStatusEnum::TRASH->getValue());
         $this->mapaCulturalEntityManager->persist($project);

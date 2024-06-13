@@ -52,11 +52,9 @@ class SpaceRepository extends AbstractRepository implements SpaceRepositoryInter
         return $space;
     }
 
-    public function softDelete(int $id): void
+    public function remove(Space $space): void
     {
-        $space = $this->find($id);
         $space->setStatus(EntityStatusEnum::TRASH->getValue());
-
         $this->mapaCulturalEntityManager->persist($space);
         $this->mapaCulturalEntityManager->flush();
     }

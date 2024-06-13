@@ -64,10 +64,10 @@ class OpportunityRepository extends AbstractRepository implements OpportunityRep
         return $queryBuilder->getQuery()->getArrayResult();
     }
 
-    public function softDelete(int $id): void
+    public function remove(Opportunity $opportunity): void
     {
-        $opportunity = $this->find($id);
         $opportunity->setStatus(EntityStatusEnum::TRASH->getValue());
-        $this->save($opportunity);
+        $this->mapaCulturalEntityManager->persist($opportunity);
+        $this->mapaCulturalEntityManager->flush();
     }
 }

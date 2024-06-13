@@ -14,5 +14,5 @@ interface SealRepositoryInterface
 
     public function save(Seal $seal): void;
 
-    public function softDelete(int $id): void;
+    public function remove(Seal $seal): void;
 }

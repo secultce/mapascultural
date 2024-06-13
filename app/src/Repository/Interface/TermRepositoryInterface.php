@@ -14,5 +14,5 @@ interface TermRepositoryInterface
 
     public function save(Term $term): void;
 
-    public function delete(Term $term): void;
+    public function remove(Term $term): void;
 }

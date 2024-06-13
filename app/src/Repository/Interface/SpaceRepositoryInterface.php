@@ -14,5 +14,5 @@ interface SpaceRepositoryInterface
 
     public function save(Space $space): void;
 
-    public function softDelete(int $id): void;
+    public function remove(Space $space): void;
 }

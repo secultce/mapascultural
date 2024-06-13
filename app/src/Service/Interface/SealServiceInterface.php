@@ -10,7 +10,7 @@ interface SealServiceInterface
 {
     public function create(mixed $data): Seal;
 
-    public function delete(int $id): void;
+    public function removeById(int $id): void;
 
     public function update(int $id, object $data): Seal;
 }

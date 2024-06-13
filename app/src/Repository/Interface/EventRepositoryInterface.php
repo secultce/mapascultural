@@ -18,5 +18,5 @@ interface EventRepositoryInterface
 
     public function update(Event $event): void;
 
-    public function softDelete(int $id): void;
+    public function remove(Event $event): void;
 }

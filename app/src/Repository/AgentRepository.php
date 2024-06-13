@@ -50,7 +50,7 @@ class AgentRepository extends AbstractRepository implements AgentRepositoryInter
         $this->mapaCulturalEntityManager->flush();
     }
 
-    public function softDelete(Agent $agent): void
+    public function remove(Agent $agent): void
     {
         $agent->setStatus(EntityStatusEnum::TRASH->getValue());
         $this->mapaCulturalEntityManager->persist($agent);

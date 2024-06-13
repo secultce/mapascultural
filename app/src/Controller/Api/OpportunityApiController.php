@@ -66,11 +66,11 @@ class OpportunityApiController extends AbstractApiController
         return new JsonResponse($opportunity, Response::HTTP_CREATED);
     }
 
-    public function delete(array $params): JsonResponse
+    public function remove(array $params): JsonResponse
     {
         $id = $this->extractIdParam($params);
-        $this->repository->softDelete($id);
+        $this->opportunityService->removeById($id);
 
-        return new JsonResponse([], Response::HTTP_NO_CONTENT);
+        return new JsonResponse(status: Response::HTTP_NO_CONTENT);
     }
 }

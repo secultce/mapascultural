@@ -51,10 +51,10 @@ class SealApiController extends AbstractApiController
         return new JsonResponse($seal, Response::HTTP_CREATED);
     }
 
-    public function delete(array $params): JsonResponse
+    public function remove(array $params): JsonResponse
     {
         $id = $this->extractIdParam($params);
-        $this->sealService->delete($id);
+        $this->sealService->removeById($id);
 
         return new JsonResponse(status: Response::HTTP_NO_CONTENT);
     }

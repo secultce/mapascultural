@@ -10,7 +10,7 @@ interface AgentServiceInterface
 {
     public function create(mixed $data): Agent;
 
-    public function discard(int $id): void;
+    public function removeById(int $id): void;
 
     public function getTypes(): array;
 

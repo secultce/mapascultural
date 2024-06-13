@@ -85,11 +85,11 @@ class EventApiController extends AbstractApiController
         return new JsonResponse($event, Response::HTTP_CREATED);
     }
 
-    public function delete($params): JsonResponse
+    public function remove(array $params): JsonResponse
     {
         $id = $this->extractIdParam($params);
-        $this->repository->softDelete($id);
+        $this->eventService->removeById($id);
 
-        return new JsonResponse([], Response::HTTP_OK);
+        return new JsonResponse(status: Response::HTTP_NO_CONTENT);
     }
 }

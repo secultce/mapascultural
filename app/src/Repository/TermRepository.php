@@ -47,7 +47,7 @@ class TermRepository extends AbstractRepository implements TermRepositoryInterfa
         $this->mapaCulturalEntityManager->flush();
     }
 
-    public function delete(Term $term): void
+    public function remove(Term $term): void
     {
         $this->mapaCulturalEntityManager->remove($term);
         $this->mapaCulturalEntityManager->flush();

@@ -51,9 +51,8 @@ class SealRepository extends AbstractRepository implements SealRepositoryInterfa
         $this->mapaCulturalEntityManager->flush();
     }
 
-    public function softDelete(int $id): void
+    public function remove(Seal $seal): void
     {
-        $seal = $this->find($id);
         $seal->setStatus(EntityStatusEnum::TRASH->getValue());
         $this->mapaCulturalEntityManager->persist($seal);
         $this->mapaCulturalEntityManager->flush();

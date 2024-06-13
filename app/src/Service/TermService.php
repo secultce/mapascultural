@@ -43,6 +43,6 @@ class TermService extends AbstractService implements TermServiceInterface
     public function removeById(int $id): void
     {
         $term = $this->termRepository->find($id);
-        $this->termRepository->delete($term);
+        $this->termRepository->remove($term);
     }
 }

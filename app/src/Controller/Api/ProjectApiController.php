@@ -59,10 +59,10 @@ class ProjectApiController extends AbstractApiController
         return new JsonResponse($project, Response::HTTP_CREATED);
     }
 
-    public function delete(array $params): JsonResponse
+    public function remove(array $params): JsonResponse
     {
         $id = $this->extractIdParam($params);
-        $this->projectService->discard($id);
+        $this->projectService->removeById($id);
 
         return new JsonResponse(status: Response::HTTP_NO_CONTENT);
     }

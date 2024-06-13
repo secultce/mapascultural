@@ -10,6 +10,8 @@ interface SpaceServiceInterface
 {
     public function create(mixed $data): Space;
 
+    public function removeById(int $id): void;
+
     public function getTypes(): array;
 
     public function update(int $id, object $data): Space;

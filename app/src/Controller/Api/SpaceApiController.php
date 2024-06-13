@@ -79,11 +79,11 @@ class SpaceApiController extends AbstractApiController
         return new JsonResponse($space, Response::HTTP_CREATED);
     }
 
-    public function delete(array $params): JsonResponse
+    public function remove(array $params): JsonResponse
     {
         $id = $this->extractIdParam($params);
-        $this->repository->softDelete($id);
+        $this->spaceService->removeById($id);
 
-        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+        return new JsonResponse(status: Response::HTTP_NO_CONTENT);
     }
 }

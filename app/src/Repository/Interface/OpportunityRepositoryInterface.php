@@ -16,5 +16,5 @@ interface OpportunityRepositoryInterface
 
     public function save(Opportunity $opportunity): void;
 
-    public function softDelete(int $id): void;
+    public function remove(Opportunity $opportunity): void;
 }

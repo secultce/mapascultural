@@ -28,9 +28,10 @@ class SealService extends AbstractService implements SealServiceInterface
         return $seal;
     }
 
-    public function delete(int $id): void
+    public function removeById(int $id): void
     {
-        $this->sealRepository->softDelete($id);
+        $seal = $this->sealRepository->find($id);
+        $this->sealRepository->remove($seal);
     }
 
     public function update(int $id, object $data): Seal
