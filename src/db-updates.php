@@ -343,6 +343,10 @@ return [
  	    $conn->executeQuery("INSERT INTO seal_relation SELECT nextval('seal_relation_id_seq'), 1, id, CURRENT_TIMESTAMP, 1, 'MapasCulturais\Entities\Event', $agent_id FROM event WHERE is_verified = 't';");
     },
 
+    'fix seal sequence' => function () use($conn) {
+        $conn->executeQuery("ALTER SEQUENCE seal_id_seq RESTART WITH 2;");
+    },
+
     'create update timestamp entities' => function () use($conn) {
         if(__column_exists('agent', 'update_timestamp')){
             echo " ALREADY APPLIED update_timestamp FIELD CREATION ON agent TABLE. ";
