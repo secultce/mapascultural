@@ -3,11 +3,12 @@ name: ci/cd-dev
 on:
   pull_request:
     branches:
-      - develop
+      - *
     types:
       - closed
       - ready_for_review
       - review_requested
+      - opened
 
   workflow_dispatch:
 

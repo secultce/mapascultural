@@ -4,6 +4,7 @@
 require dirname(__DIR__, 2).'/vendor/autoload.php';
 require dirname(__DIR__, 2).'/public/bootstrap.php';
 
+use App\Application\Environment;
 use App\Command\CodeStyleCommand;
 use App\Command\DebugRouterCommand;
 use App\Command\FixturesCommand;
@@ -12,12 +13,7 @@ use App\Command\WelcomeCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Dotenv\Dotenv;
 
-$env = dirname(__DIR__, 1).'/.env';
-
-if (false === file_exists($env)) {
-    die('Please create a .env file in the root directory (/app/.env)'.PHP_EOL);
-}
-
+$env = Environment::getEnvData();
 $dotenv = new Dotenv();
 $dotenv->load($env);
 
@@ -31,7 +27,7 @@ $application->addCommands([
     new DebugRouterCommand(),
 ]);
 
-if ('local' === $_ENV['APP_ENV']) {
+if (true === Environment::isLocal()) {
     $application->addCommands([new FixturesCommand($entityManager)]);
 }
 

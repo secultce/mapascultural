@@ -1,6 +1,7 @@
 <?php
 namespace MapasCulturais;
 
+use App\Application\Environment;
 use Respect\Validation\Validator as v;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Criteria;
@@ -526,6 +527,10 @@ abstract class Entity implements \JsonSerializable{
     }
 
     public function checkPermission($action){
+        if (true === Environment::isLocal()) {
+            return;
+        }
+
         if(!$this->canUser($action))
             throw new Exceptions\PermissionDenied(App::i()->user, $this, $action);
     }
