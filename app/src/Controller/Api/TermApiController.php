@@ -42,6 +42,15 @@ class TermApiController extends AbstractApiController
         return new JsonResponse($term, Response::HTTP_CREATED);
     }
 
+    public function patch(array $params): JsonResponse
+    {
+        $id = $this->extractIdParam($params);
+        $termData = $this->termRequest->validatePatch();
+        $term = $this->service->update($id, $termData);
+
+        return new JsonResponse($term, Response::HTTP_CREATED);
+    }
+
     public function remove(array $params): JsonResponse
     {
         $id = $this->extractIdParam($params);

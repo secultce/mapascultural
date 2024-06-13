@@ -10,5 +10,7 @@ interface TermServiceInterface
 {
     public function create(mixed $data): Term;
 
+    public function update(int $id, array $termData): Term;
+
     public function removeById(int $id): void;
 }
