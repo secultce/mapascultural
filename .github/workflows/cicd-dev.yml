@@ -1,12 +1,6 @@
 name: ci/cd-dev
 
-on:
-  pull_request:
-    types:
-      - closed
-      - ready_for_review
-      - review_requested
-      - opened
+on: [pull_request]
 
 jobs:
   CODE_STYLE:
