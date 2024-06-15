@@ -81,7 +81,7 @@ class TermApiControllerTest extends AbstractTestCase
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
-    public function  testTermUpdateShouldReturnUpdatedTerm(): void
+    public function testTermUpdateShouldReturnUpdatedTerm(): void
     {
         $termTestFixtures = TermTestFixtures::partial();
 
@@ -92,7 +92,7 @@ class TermApiControllerTest extends AbstractTestCase
         $content = json_decode($response->getContent(), true);
 
         $this->assertIsArray($content);
-        $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         foreach ($termTestFixtures->toArray() as $key => $value) {
             $this->assertEquals($value, $content[$key]);
         }
@@ -104,6 +104,7 @@ class TermApiControllerTest extends AbstractTestCase
             'body' => json_encode([
                 'taxonomy' => 'update',
                 'term' => 'update',
+                'description' => 'update',
             ]),
         ]);
 
@@ -148,8 +149,11 @@ class TermApiControllerTest extends AbstractTestCase
                 ],
                 'expectedMessages' => [
                     'This value should not be blank.',
+                    'This value is too short. It should have 2 characters or more.',
                     'This value should not be blank.',
+                    'This value is too short. It should have 2 characters or more.',
                     'This value should not be blank.',
+                    'This value is too short. It should have 2 characters or more.',
                 ],
             ],
             'invalid type fields' => [

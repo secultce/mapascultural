@@ -12,6 +12,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class TermRequest
 {
+    public const GROUP_POST = 'post';
+
+    public const GROUP_PATCH = 'patch';
+
     public function __construct(
         private readonly Request $request,
         private readonly SerializerInterface $serializer,
@@ -21,12 +25,12 @@ class TermRequest
 
     public function validatePost(): array
     {
-        return $this->validateTerm(Request::METHOD_POST);
+        return $this->validateTerm(self::GROUP_POST);
     }
 
     public function validatePatch(): array
     {
-        return $this->validateTerm(Request::METHOD_PATCH);
+        return $this->validateTerm(self::GROUP_PATCH);
     }
 
     public function validateTerm(string $validatorGroup): array
