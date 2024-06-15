@@ -10,7 +10,7 @@ interface ProjectServiceInterface
 {
     public function create(mixed $data): Project;
 
-    public function discard(int $id): void;
+    public function removeById(int $id): void;
 
     public function update(int $id, object $data): Project;
 }

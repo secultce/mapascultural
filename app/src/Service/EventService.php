@@ -55,4 +55,10 @@ class EventService implements EventServiceInterface
 
         return $eventUpdated;
     }
+
+    public function removeById(int $id): void
+    {
+        $event = $this->repository->find($id);
+        $this->repository->remove($event);
+    }
 }

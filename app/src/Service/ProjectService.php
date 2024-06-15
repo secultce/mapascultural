@@ -62,9 +62,9 @@ class ProjectService implements ProjectServiceInterface
         return $projectUpdated;
     }
 
-    public function discard(int $id): void
+    public function removeById(int $id): void
     {
         $project = $this->projectRepository->find($id);
-        $this->$project->softDelete($project);
+        $this->$project->remove($project);
     }
 }

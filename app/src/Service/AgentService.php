@@ -60,9 +60,9 @@ class AgentService implements AgentServiceInterface
         return $agent;
     }
 
-    public function discard(int $id): void
+    public function removeById(int $id): void
     {
         $agent = $this->repository->find($id);
-        $this->repository->softDelete($agent);
+        $this->repository->remove($agent);
     }
 }

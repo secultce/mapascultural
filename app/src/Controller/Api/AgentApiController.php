@@ -73,10 +73,10 @@ class AgentApiController extends AbstractApiController
         return new JsonResponse($agent, Response::HTTP_CREATED);
     }
 
-    public function delete(array $params): JsonResponse
+    public function remove(array $params): JsonResponse
     {
         $id = $this->extractIdParam($params);
-        $this->agentService->discard($id);
+        $this->agentService->removeById($id);
 
         return new JsonResponse(status: Response::HTTP_NO_CONTENT);
     }

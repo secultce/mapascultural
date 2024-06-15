@@ -14,5 +14,5 @@ interface AgentRepositoryInterface
 
     public function save(Agent $agent): void;
 
-    public function softDelete(Agent $agent): void;
+    public function remove(Agent $agent): void;
 }

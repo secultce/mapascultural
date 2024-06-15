@@ -74,4 +74,10 @@ class OpportunityService implements OpportunityServiceInterface
 
         return $opportunity;
     }
+
+    public function removeById(int $id): void
+    {
+        $opportunity = $this->repository->find($id);
+        $this->repository->remove($opportunity);
+    }
 }

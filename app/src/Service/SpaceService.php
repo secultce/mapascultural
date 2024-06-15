@@ -54,4 +54,10 @@ class SpaceService implements SpaceServiceInterface
 
         return $spaceUpdated;
     }
+
+    public function removeById(int $id): void
+    {
+        $space = $this->repository->find($id);
+        $this->repository->remove($space);
+    }
 }

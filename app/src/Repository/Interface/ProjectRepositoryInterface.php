@@ -14,5 +14,5 @@ interface ProjectRepositoryInterface
 
     public function save(Project $project): void;
 
-    public function softDelete(Project $project): void;
+    public function remove(Project $project): void;
 }
