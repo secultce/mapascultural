@@ -2,15 +2,11 @@ name: ci/cd-dev
 
 on:
   pull_request:
-    branches:
-      - *
     types:
       - closed
       - ready_for_review
       - review_requested
       - opened
-
-  workflow_dispatch:
 
 jobs:
   CODE_STYLE:
