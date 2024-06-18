@@ -1,18 +1,16 @@
-describe('Swagger Documentation Page Test', () => {
+describe('Api V2 Documentation Page Test', () => {
     beforeEach(() => {
         cy.visit("/mapas/docs/v2");
     });
 
     it('should load the documentation page without errors', () => {
-        cy.visit(url);
-
         cy.get('.errors-wrapper').should('not.exist');
 
         cy.contains('API Mapas Culturais V2 - OpenAPI 3.0').should('be.visible');
-        cy.contains('GET /agents').should('be.visible');
-        cy.contains('POST /agents').should('be.visible');
-        cy.contains('GET /agents/{id}').should('be.visible');
-        cy.contains('PATCH /agents/{id}').should('be.visible');
-        cy.contains('DELETE /agents/{id}').should('be.visible');
+        cy.get('#operations-Agentes-get_agents > .opblock-summary > .opblock-summary-control').should('be.visible');
+        cy.get('#operations-Agentes-post_agents > .opblock-summary > .opblock-summary-control').should('be.visible');
+        cy.get('#operations-Agentes-get_agents__id_ > .opblock-summary > .opblock-summary-control').should('be.visible');
+        cy.get('#operations-Agentes-patch_agents__id_ > .opblock-summary > .opblock-summary-control').should('be.visible');
+        cy.get('#operations-Agentes-delete_agents__id_ > .opblock-summary > .opblock-summary-control').should('be.visible');
     });
 });

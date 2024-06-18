@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/secultce/mapacultural#readme",
   "dependencies": {
-    "cypress": "^13.6.4",
+    "cypress": "^13.11.0",
     "ng-recaptcha": "^13.2.1"
   },
   "devDependencies": {
