@@ -83,28 +83,23 @@ class TermApiControllerTest extends AbstractTestCase
 
     public function testTermUpdateShouldReturnUpdatedTerm(): void
     {
-        $termTestFixtures = TermTestFixtures::partial();
-
         $response = $this->client->request(Request::METHOD_PATCH, self::BASE_URL.'/2', [
-            'body' => $termTestFixtures->json(),
+            'body' => json_encode([
+                'term' => 'Update term',
+            ]),
         ]);
 
         $content = json_decode($response->getContent(), true);
-
         $this->assertIsArray($content);
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
-        foreach ($termTestFixtures->toArray() as $key => $value) {
-            $this->assertEquals($value, $content[$key]);
-        }
+        $this->assertEquals('Update term', $content['term']);
     }
 
     public function testUpdateATermThatNotExists(): void
     {
         $response = $this->client->request(Request::METHOD_PATCH, self::BASE_URL.'/999', [
             'body' => json_encode([
-                'taxonomy' => 'update',
-                'term' => 'update',
-                'description' => 'update',
+                'term' => 'Update',
             ]),
         ]);
 

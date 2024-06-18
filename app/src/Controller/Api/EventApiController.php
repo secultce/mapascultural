@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
-use App\Exception\FieldRequiredException;
 use App\Repository\Interface\EventRepositoryInterface;
 use App\Request\EventRequest;
 use App\Service\Interface\EventServiceInterface;
@@ -53,36 +52,18 @@ class EventApiController extends AbstractApiController
     public function post(): JsonResponse
     {
         $eventData = $this->eventRequest->validatePost();
-
-        if (true === empty($eventData)) {
-            throw new FieldRequiredException('Event data is required.');
-        }
-
         $event = $this->eventService->create((object) $eventData);
 
-        $responseData = [
-            'id' => $event->getId(),
-            'name' => $event->getName(),
-            'shortDescription' => $event->getShortDescription(),
-            'classificacaoEtaria' => $event->getMetadata('classificacaoEtaria'),
-            'terms' => $event->getTerms(),
-        ];
-
-        return new JsonResponse($responseData, Response::HTTP_CREATED);
+        return new JsonResponse($event, Response::HTTP_CREATED);
     }
 
     public function patch(array $params): JsonResponse
     {
         $id = $this->extractIdParam($params);
         $eventData = $this->eventRequest->validateUpdate();
-
-        if (true === empty($eventData)) {
-            throw new FieldRequiredException('Event data is required.');
-        }
-
         $event = $this->eventService->update($id, (object) $eventData);
 
-        return new JsonResponse($event, Response::HTTP_CREATED);
+        return new JsonResponse($event, Response::HTTP_OK);
     }
 
     public function remove(array $params): JsonResponse

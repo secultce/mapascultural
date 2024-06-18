@@ -4,44 +4,49 @@ declare(strict_types=1);
 
 namespace App\Request;
 
-use App\Exception\FieldRequiredException;
-use App\Exception\InvalidRequestException;
+use App\DTO\EventDto;
+use App\Exception\ValidatorException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class EventRequest
 {
+    public const GROUP_POST = 'post';
+
+    public const GROUP_PATCH = 'patch';
+
     public function __construct(
-        private readonly Request $request
+        private readonly Request $request,
+        private readonly SerializerInterface $serializer,
+        private readonly ValidatorInterface $validator
     ) {
     }
 
     public function validatePost(): array
     {
-        $jsonData = $this->request->getContent();
-        $data = json_decode($jsonData, true);
-
-        $requiredFields = ['name', 'shortDescription', 'classificacaoEtaria', 'terms'];
-        foreach ($requiredFields as $field) {
-            if (false === isset($data[$field])) {
-                throw new FieldRequiredException(ucfirst($field));
-            }
-        }
-
-        if (
-            false === isset($data['terms']['linguagem'])
-            || false === is_array($data['terms'])
-            || false === is_array($data['terms']['linguagem'])
-        ) {
-            throw new InvalidRequestException('The "terms" field must be an object with a property "linguagem" which is an array.');
-        }
-
-        return $data;
+        return $this->validateEvent(self::GROUP_POST);
     }
 
     public function validateUpdate(): array
     {
-        $jsonData = $this->request->getContent();
-        $data = json_decode($jsonData, associative: true);
+        return $this->validateEvent(self::GROUP_PATCH);
+    }
+
+    public function validateEvent(string $validateGroup): array
+    {
+        $data = json_decode(
+            json: $this->request->getContent(),
+            associative: true
+        );
+
+        $event = $this->serializer->denormalize($data, EventDto::class);
+
+        $violations = $this->validator->validate($event, groups: [$validateGroup]);
+
+        if (0 < count($violations)) {
+            throw new ValidatorException(violations: $violations);
+        }
 
         return $data;
     }
