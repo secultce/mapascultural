@@ -426,6 +426,17 @@ Todo o código se encontra no diretório `/app/config`, no arquivo `di.php`.
 
 ## Console Commands
 
+<details>
+<summary>CACHE CLEAR</summary>
+
+### Limpar cache
+Para executar o comando de limpar cache basta entrar no container da aplicação e executar o seguinte comando:
+
+```shell
+php app/bin/console cache:clear
+```
+
+</details>
 
 <details>
 <summary>TESTS</summary>
