@@ -65,6 +65,6 @@ class ProjectService implements ProjectServiceInterface
     public function removeById(int $id): void
     {
         $project = $this->projectRepository->find($id);
-        $this->$project->remove($project);
+        $this->projectRepository->remove($project);
     }
 }
