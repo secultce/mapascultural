@@ -47,9 +47,8 @@ class ProjectApiControllerTest extends AbstractTestCase
         $this->assertEquals('Project Test', $content['name']);
     }
 
-    public function testDeleteProjectShouldReturnSuccess(): void
+    public function testDeleteProjectShouldReturnNoContent(): void
     {
-        $this->markTestSkipped();
         $response = $this->client->request(Request::METHOD_DELETE, self::BASE_URL.'/1');
 
         $this->assertEquals(Response::HTTP_NO_CONTENT, $response->getStatusCode());
