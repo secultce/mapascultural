@@ -5,6 +5,7 @@ require dirname(__DIR__, 2).'/vendor/autoload.php';
 require dirname(__DIR__, 2).'/public/bootstrap.php';
 
 use App\Application\Environment;
+use App\Command\ClearCacheCommand;
 use App\Command\CodeStyleCommand;
 use App\Command\DebugRouterCommand;
 use App\Command\FixturesCommand;
@@ -12,6 +13,7 @@ use App\Command\TestsCommand;
 use App\Command\WelcomeCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Dotenv\Dotenv;
+use Symfony\Component\Filesystem\Filesystem;
 
 $env = Environment::getEnvData();
 $dotenv = new Dotenv();
@@ -21,10 +23,11 @@ $application = new Application();
 $entityManager = $app->em ?? null;
 
 $application->addCommands([
-    new WelcomeCommand(),
-    new TestsCommand(),
+    new ClearCacheCommand(new Filesystem()),
     new CodeStyleCommand(),
     new DebugRouterCommand(),
+    new TestsCommand(),
+    new WelcomeCommand(),
 ]);
 
 if (true === Environment::isLocal()) {
