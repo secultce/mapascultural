@@ -34,7 +34,6 @@ class SpaceApiControllerTest extends AbstractTestCase
 
     public function testCreateSpaceShouldReturnCreatedSpace(): void
     {
-        $this->markTestSkipped();
         $spaceTestFixtures = SpaceTestFixtures::partial();
 
         $response = $this->client->request(Request::METHOD_POST, self::BASE_URL, [
@@ -42,16 +41,22 @@ class SpaceApiControllerTest extends AbstractTestCase
         ]);
 
         $content = json_decode($response->getContent(), true);
+
         $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
         $this->assertIsArray($content);
+
         foreach ($spaceTestFixtures->toArray() as $key => $value) {
+            if ('type' === $key) {
+                $this->assertEquals($value, $content[$key]['id']);
+                continue;
+            }
+
             $this->assertEquals($value, $content[$key]);
         }
     }
 
     public function testDeleteSpaceShouldReturnSuccess(): void
     {
-        $this->markTestSkipped();
         $response = $this->client->request(Request::METHOD_DELETE, self::BASE_URL.'/1');
 
         $this->assertEquals(Response::HTTP_NO_CONTENT, $response->getStatusCode());
@@ -60,9 +65,8 @@ class SpaceApiControllerTest extends AbstractTestCase
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
-    public function testUpdate(): void
+    public function testUpdateSpaceShouldReturnUpdatedSpace(): void
     {
-        $this->markTestSkipped();
         $spaceTestFixtures = SpaceTestFixtures::partial();
         $url = sprintf(self::BASE_URL.'/%s', SpaceFixtures::SPACE_ID_3);
 
@@ -73,6 +77,7 @@ class SpaceApiControllerTest extends AbstractTestCase
         $content = json_decode($response->getContent(), true);
         $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
         $this->assertIsArray($content);
+
         foreach ($spaceTestFixtures->toArray() as $key => $value) {
             $this->assertEquals($value, $content[$key]);
         }
