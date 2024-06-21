@@ -19,9 +19,13 @@ $this->import('
 				<mc-avatar :entity="entity" size="small"></mc-avatar>
 			</slot>
 			<div class="user-info" :class="{'with-labels': useLabels, 'without-labels': !useLabels}">
-				<slot name="title">
-					<mc-title tag="h2" :shortLength="55" :longLength="71" class="bold">{{entity.name}}</mc-title>
-				</slot>
+                <slot name="title">
+                    <a :href="entity.singleUrl" class="entity-title-link">
+                        <mc-title tag="h2" :shortLength="55" :longLength="71" class="bold mc-title--link">
+                            {{entity.name}}
+                        </mc-title>
+                    </a>
+                </slot>
 				<slot name="type">
 					<div v-if="entity.type" class="user-info__attr">
 						<?php i::_e('Tipo:') ?> {{entity.type.name}}
