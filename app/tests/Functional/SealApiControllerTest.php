@@ -25,7 +25,9 @@ class SealApiControllerTest extends AbstractTestCase
 
     public function testGetOneSealShouldRetrieveAObject(): void
     {
-        $response = $this->client->request(Request::METHOD_GET, self::BASE_URL.'/3');
+        $url = sprintf('%s/%s', self::BASE_URL, SealFixtures::SEAL_ID_4);
+
+        $response = $this->client->request(Request::METHOD_GET, $url);
         $content = json_decode($response->getContent());
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
@@ -34,7 +36,6 @@ class SealApiControllerTest extends AbstractTestCase
 
     public function testCreateSealShouldReturnCreatedSeal(): void
     {
-        $this->markTestSkipped();
         $sealTestFixtures = SealTestFixtures::partial();
 
         $response = $this->client->request(Request::METHOD_POST, self::BASE_URL, [
@@ -51,21 +52,20 @@ class SealApiControllerTest extends AbstractTestCase
 
     public function testDeleteSealShouldReturnSuccess(): void
     {
-        $this->markTestSkipped();
-        $sealId = SealFixtures::SEAL_ID_6;
+        $url = sprintf('%s/%s', self::BASE_URL, SealFixtures::SEAL_ID_3);
 
-        $response = $this->client->request(Request::METHOD_DELETE, sprintf(self::BASE_URL.'/%s', $sealId));
+        $response = $this->client->request(Request::METHOD_DELETE, $url);
         $this->assertEquals(Response::HTTP_NO_CONTENT, $response->getStatusCode());
 
-        $response = $this->client->request(Request::METHOD_GET, sprintf(self::BASE_URL.'/%s', $sealId));
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $response = $this->client->request(Request::METHOD_GET, $url);
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
     public function testUpdate(): void
     {
-        $this->markTestSkipped();
         $sealTestFixtures = SealTestFixtures::partial();
-        $url = sprintf(self::BASE_URL.'/%s', SealFixtures::SEAL_ID_3);
+
+        $url = sprintf('%s/%s', self::BASE_URL, SealFixtures::SEAL_ID_4);
 
         $response = $this->client->request(Request::METHOD_PATCH, $url, [
             'body' => $sealTestFixtures->json(),
@@ -82,7 +82,8 @@ class SealApiControllerTest extends AbstractTestCase
     public function testUpdateNotFoundedResource(): void
     {
         $sealTestFixtures = SealTestFixtures::partial();
-        $url = sprintf(self::BASE_URL.'/%s', 80);
+
+        $url = sprintf('%s/%s', self::BASE_URL, 80);
 
         $response = $this->client->request(Request::METHOD_PATCH, $url, [
             'body' => $sealTestFixtures->json(),
