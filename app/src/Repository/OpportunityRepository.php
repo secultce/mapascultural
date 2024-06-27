@@ -8,7 +8,6 @@ use App\Enum\EntityStatusEnum;
 use App\Exception\ResourceNotFoundException;
 use App\Repository\Interface\OpportunityRepositoryInterface;
 use Doctrine\Persistence\ObjectRepository;
-use MapasCulturais\Entities\AgentOpportunity;
 use MapasCulturais\Entities\Opportunity;
 
 class OpportunityRepository extends AbstractRepository implements OpportunityRepositoryInterface
@@ -53,15 +52,16 @@ class OpportunityRepository extends AbstractRepository implements OpportunityRep
 
     public function findOpportunitiesByAgentId(int $agentId): array
     {
-        $queryBuilder = $this->entityManager
-            ->createQueryBuilder()
-            ->select('ao')
-            ->from(AgentOpportunity::class, 'ao')
-            ->where('ao.ownerEntity = :agentId')
-            ->andWhere('ao.parent is null')
-            ->setParameter('agentId', $agentId);
-
-        return $queryBuilder->getQuery()->getArrayResult();
+        return $this->repository
+            ->createQueryBuilder('opportunity')
+            ->where('opportunity.status = :status')
+            ->andWhere('opportunity.owner = :agent')
+            ->setParameters([
+                'status' => EntityStatusEnum::ENABLED->getValue(),
+                'agent' => $agentId,
+            ])
+            ->getQuery()
+            ->getArrayResult();
     }
 
     public function remove(Opportunity $opportunity): void

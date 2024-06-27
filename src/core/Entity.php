@@ -933,7 +933,9 @@ abstract class Entity implements \JsonSerializable{
      * @param boolean $flush Flushes to the database
      */
     public function delete($flush = false){
-        $this->checkPermission('remove');
+        if (false === Environment::isLocal()) {
+            $this->checkPermission('remove');
+        }
 
         App::i()->em->remove($this);
         if($flush)
@@ -1266,6 +1268,10 @@ abstract class Entity implements \JsonSerializable{
      * @hook **entity({$entity_class}).remove:before**
      */
     public function preRemove($args = null){
+        if (true === Environment::isLocal()) {
+            return;
+        }
+
         $app = App::i();
         
         $hook_prefix = $this->getHookPrefix();

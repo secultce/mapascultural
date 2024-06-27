@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Repository\Interface\AgentRepositoryInterface;
+use App\Repository\Interface\UserRepositoryInterface;
 use App\Service\Interface\AgentServiceInterface;
 use MapasCulturais\Entities\Agent;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -15,6 +16,7 @@ class AgentService implements AgentServiceInterface
 
     public function __construct(
         private readonly AgentRepositoryInterface $repository,
+        private readonly UserRepositoryInterface $userRepository,
         private readonly SerializerInterface $serializer
     ) {
     }
@@ -48,12 +50,12 @@ class AgentService implements AgentServiceInterface
 
     public function create(mixed $data): Agent
     {
-        $agent = new Agent();
+        $user = $this->userRepository->find(1);
+
+        $agent = new Agent($user);
         $agent->setName($data->name);
         $agent->setShortDescription($data->shortDescription);
         $agent->setType($data->type);
-        $agent->terms['area'] = $data->terms['area'];
-        $agent->saveTerms();
 
         $this->repository->save($agent);
 
