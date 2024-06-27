@@ -439,6 +439,18 @@ php app/bin/console cache:clear
 </details>
 
 <details>
+<summary>COMMAND SQL</summary>
+
+### Executar código SQL
+Para executar um comando SQL basta entrar no container da aplicação e executar o seguinte comando:
+
+```shell
+php app/bin/console database:sql {sql}
+```
+O argumento chamado de `sql` é requerido e é o comando a ser executar no banco de dados.
+</details>
+
+<details>
 <summary>TESTS</summary>
 
 ### Testes Automatizados

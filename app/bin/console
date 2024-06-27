@@ -7,6 +7,7 @@ require dirname(__DIR__, 2).'/public/bootstrap.php';
 use App\Application\Environment;
 use App\Command\ClearCacheCommand;
 use App\Command\CodeStyleCommand;
+use App\Command\DatabaseCommand;
 use App\Command\DebugRouterCommand;
 use App\Command\FixturesCommand;
 use App\Command\TestsCommand;
@@ -25,6 +26,7 @@ $entityManager = $app->em ?? null;
 $application->addCommands([
     new ClearCacheCommand(new Filesystem()),
     new CodeStyleCommand(),
+    new DatabaseCommand(),
     new DebugRouterCommand(),
     new TestsCommand(),
     new WelcomeCommand(),
