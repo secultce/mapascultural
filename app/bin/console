@@ -26,14 +26,16 @@ $entityManager = $app->em ?? null;
 $application->addCommands([
     new ClearCacheCommand(new Filesystem()),
     new CodeStyleCommand(),
-    new DatabaseCommand(),
     new DebugRouterCommand(),
     new TestsCommand(),
     new WelcomeCommand(),
 ]);
 
 if (true === Environment::isLocal()) {
-    $application->addCommands([new FixturesCommand($entityManager)]);
+    $application->addCommands([
+        new DatabaseCommand(),
+        new FixturesCommand($entityManager)
+    ]);
 }
 
 $application->run();
