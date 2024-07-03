@@ -30,13 +30,17 @@ $this->import('
                             <mc-icon name="opportunity"></mc-icon>
                         </div>                        
                         <div class="card__left--content-title">
+                            <a href="<?= $app->createUrl('search/opportunities') ?>" class="card__title-link">
                             <label class="title">
                                 <?= i::__('Oportunidades') ?>
                             </label>
+                            </a>
                         </div>
                     </div>
                     <div class="card__left--img">
+                        <a href="<?= $app->createUrl('search/opportunities') ?>" class="card__img-link">
                         <img src="<?php $this->asset($app->config['module.home']['home-opportunities']) ?>" />
+                        </a>
                     </div>
                 </div>
                 <div class="card__right">
@@ -53,15 +57,19 @@ $this->import('
                     <div class="card__left--content">
                         <div class="card__left--content-icon event__background">
                             <mc-icon name="event"></mc-icon>
-                        </div>                        
+                        </div>
                         <div class="card__left--content-title">
-                            <label class="title">
-                                <?= i::__('Eventos') ?>
-                            </label>
+                            <a href="<?= $app->createUrl('search/events') ?>">
+                                <label class="title">
+                                    <?= i::__('Eventos') ?>
+                                </label>
+                            </a>
                         </div>
                     </div>
                     <div class="card__left--img">
-                        <img src="<?php $this->asset($app->config['module.home']['home-events']) ?>" />
+                        <a href="<?= $app->createUrl('search/events') ?>">
+                            <img src="<?php $this->asset($app->config['module.home']['home-events']) ?>" />
+                        </a>
                     </div>
                 </div>
                 <div class="card__right">
@@ -78,15 +86,19 @@ $this->import('
                     <div class="card__left--content">
                         <div class="card__left--content-icon space__background">
                             <mc-icon name="space"></mc-icon>
-                        </div>                        
+                        </div>
                         <div class="card__left--content-title">
+                            <a href="<?= $app->createUrl('search/spaces') ?>" class="card__title-link">
                             <label class="title">
                                 <?= i::__('Espaços') ?>
                             </label>
+                            </a>
                         </div>
                     </div>
                     <div class="card__left--img">
+                        <a href="<?= $app->createUrl('search/spaces') ?>" class="card__img-link">
                         <img src="<?php $this->asset($app->config['module.home']['home-spaces']) ?>" />
+                        </a>
                     </div>
                 </div>
                 <div class="card__right">
@@ -105,13 +117,17 @@ $this->import('
                             <mc-icon name="agent-2"></mc-icon>
                         </div>                        
                         <div class="card__left--content-title">
+                            <a href="<?= $app->createUrl('search/agents') ?>" class="card__title-link">
                             <label class="title">
                                 <?= i::__('Agentes') ?>
                             </label>
+                            </a>
                         </div>
                     </div>
                     <div class="card__left--img">
+                        <a href="<?= $app->createUrl('search/agents') ?>" class="card__img-link">
                         <img src="<?php $this->asset($app->config['module.home']['home-agents']) ?>" />
+                        </a>
                     </div>
                 </div>
                 <div class="card__right">
@@ -130,13 +146,17 @@ $this->import('
                             <mc-icon name="project"></mc-icon>
                         </div>                        
                         <div class="card__left--content-title">
+                            <a href="<?= $app->createUrl('search/projects') ?>" class="card__title-link">
                             <label class="title">
                                 <?= i::__('Projetos') ?>
                             </label>
+                            </a>
                         </div>
                     </div>
                     <div class="card__left--img">
+                        <a href="<?= $app->createUrl('search/spaces') ?>" class="card__img-link">
                         <img src="<?php $this->asset($app->config['module.home']['home-projects']) ?>" />
+                        </a>
                     </div>
                 </div>
                 <div class="card__right">
