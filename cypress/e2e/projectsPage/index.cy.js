@@ -1,21 +1,21 @@
-describe("Projeto", () => {
+function acessProject () {
+  it("clica em \"Acessar\" e entra na pagina no projeto selecionado", () => {
+    cy.contains("h2", "Projeto de Cultura").should("exist");
+    cy.get("a[href=\"http://localhost/projeto/1/\"]").contains("Acessar").click();
+    cy.url().should("include", "/projeto/1");
+    cy.contains("h1", "Projeto de Cultura").should("exist");
+    cy.get(".metadata__id").should("exist");
+    cy.get(".metadata > :nth-child(2)").should("exist");
+    cy.get(".tabs-component__panels").should("exist");
+  });
+}
+
+module.exports = { acessProject };
+
+describe("Pagina de Projetos", () => {
   beforeEach(() => {
-    cy.visit("/");
+    cy.visit("/projetos");
   });
 
-  it("Garante que o projeto seja clicável", () => {
-    cy.get(".mc-header-menu__btn-mobile").click();
-    cy.contains(".mc-header-menu__itens a", "Projetos").click();
-    cy.url().should("include", "projetos");
-
-    cy.get(".search-filter__actions--form-input").type("projeto");
-
-    cy.get(".search-filter__actions--form-button").click();
-
-    cy.wait(5000);
-
-    cy.visit("https://redesign.testes.map.as/projeto/20/#info");
-
-    cy.url().should("include", "https://redesign.testes.map.as/projeto/20/#info");
-  });
+  acessProject();
 });
