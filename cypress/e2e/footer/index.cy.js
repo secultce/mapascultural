@@ -1,11 +1,11 @@
 import { footer } from "../../commands/footer";
 
 describe("Homepage", () => {
-    beforeEach(() => {
-        cy.visit("/");
-    });
+  beforeEach(() => {
+    cy.visit("/");
+  });
 
-    it("testa a funcão footer", () => {
-        footer();
-    });
+  it("testa a funcão footer", () => {
+    footer();
+  });
 });
