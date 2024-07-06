@@ -16,7 +16,7 @@ $this->import('
 <div v-if="taxomyExists() && (editable || entity.terms?.[taxonomy].length > 0)" :class="['entity-terms', classes, error]">
     <div class="entity-terms__header">
         <mc-title tag="h4" :short-length="0" size="medium" class="bold">{{title ?? taxonomy}}</mc-title>
-        <span class="entity-terms__required" style="color: red">*</span>
+        <span class="entity-terms__required" style="color: red" v-if="title !== 'Tags'">*</span>
     </div>
  
     <mc-popover v-if="allowInsert && editable" openside="down-right"  @open="loadTerms()" :title="popoverTitle">
