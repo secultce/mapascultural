@@ -34,7 +34,9 @@
         "symfony/property-access": "^7.0",
         "symfony/validator": "^7.0",
         "php-di/php-di": "^7.0",
-        "symfony/dotenv": "^7.1"
+        "symfony/dotenv": "^7.1",
+        "doctrine/migrations": "^3.8",
+        "symfony/yaml": "^7.1"
     },
     "autoload": {
         "psr-4": {
