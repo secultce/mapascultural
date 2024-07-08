@@ -15,10 +15,10 @@ describe("Navbar", () => {
     cy.url().should("include", "agentes");
 
     cy.contains("a", "Eventos").click();
-    cy.url().should("include", "eventos/#list");
+    cy.url().should("include", "eventos");
 
     cy.contains("a", "Espaços").click();
-    cy.url().should("include", "espacos/#list");
+    cy.url().should("include", "espacos");
 
     cy.contains("a", "Projetos").click();
     cy.url().should("include", "projetos");
