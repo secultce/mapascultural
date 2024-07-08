@@ -278,6 +278,43 @@ public function __construct()
 
 ---
 
+## Migrations
+Migrations são a forma (correta) de fazer um versionamento do banco de dados, nesta parte da aplicação isso é fornecido pela biblioteca `doctrine/migrations` mas no core do MapaCultural isso ainda é feito por uma decisão técnica interna chamada `db-updates.php`
+
+<details>
+<summary>Como criar uma nova migration</summary>
+
+#### Passo 1 - Criar uma nova classe no diretório `/app/migrations`
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Migrations;
+
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+
+final class Version20241231235959 extends AbstractMigration
+{
+    public function up(Schema $schema): void
+    {
+        //$this->addSql('CREATE TABLE ...');
+    }
+    
+    public function down(Schema $schema): void
+    {
+        //$this->addSql('DROP TABLE ...');
+    }
+}
+```
+
+Note que o nome da classe deve informar o momento de sua criação, para que seja mantida uma sequencia temporal da evolução do esquema do banco de dados.
+
+> Documentação oficial das migrations do Doctrine: <https://www.doctrine-project.org/projects/doctrine-migrations/en/3.8/reference/generating-migrations.html>
+</details>
+
 ## Command
 Comandos são entradas via CLI (linha de comando) que permitem automatizar alguns processos, como rodar testes, veririfcar estilo de código, e debugar rotas
 
