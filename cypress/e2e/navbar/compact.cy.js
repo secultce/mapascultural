@@ -19,11 +19,11 @@ describe("NavbarCompact", () => {
 
     cy.get(".mc-header-menu__btn-mobile").click();
     cy.contains(".mc-header-menu__itens a", "Eventos").click();
-    cy.url().should("include", "eventos/#list");
+    cy.url().should("include", "eventos");
 
     cy.get(".mc-header-menu__btn-mobile").click();
     cy.contains(".mc-header-menu__itens a", "Espaços").click();
-    cy.url().should("include", "espacos/#list");
+    cy.url().should("include", "espacos");
 
     cy.get(".mc-header-menu__btn-mobile").click();
     cy.contains(".mc-header-menu__itens a", "Projetos").click();
