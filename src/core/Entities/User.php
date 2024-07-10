@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use MapasCulturais\API;
 use MapasCulturais\ApiQuery;
 use MapasCulturais\App;
+use MapasCulturais\GuestUser;
 use MapasCulturais\i;
 use MapasCulturais\Exceptions\PermissionDenied;
 use MapasCulturais\Exceptions\BadRequest;
@@ -52,6 +53,11 @@ class User extends \MapasCulturais\Entity implements \MapasCulturais\UserInterfa
      * @ORM\Column(name="auth_provider", type="smallint", nullable=false)
      */
     protected $authProvider;
+
+    /**
+     * @ORM\Column(name="auth_token", nullable=true)
+     */
+    protected string $authToken;
 
     /**
      * @var string
@@ -382,6 +388,16 @@ class User extends \MapasCulturais\Entity implements \MapasCulturais\UserInterfa
     public function setAuthUid(string $authUid): void
     {
         $this->authUid = $authUid;
+    }
+
+    public function setAuthToken(string $authToken): void
+    {
+        $this->authToken = $authToken;
+    }
+
+    public function getAuthToken(): string
+    {
+        return $this->authToken;
     }
 
     public function getRegistrationsByStatus($status = 0){
@@ -972,7 +988,7 @@ class User extends \MapasCulturais\Entity implements \MapasCulturais\UserInterfa
         }
     }
 
-    protected function canUserDeleteAccount(User $user){
+    protected function canUserDeleteAccount(User|GuestUser $user){
         return $user->is('admin') || $user->equals($this);
     }
 

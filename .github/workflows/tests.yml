@@ -43,6 +43,9 @@ jobs:
       - name: Configurar o arquivo .env na pasta app
         run: docker exec -t $(docker-compose -f dev/docker-compose.yml ps -q mapas) sed -i 's/APP_ENV=/APP_ENV=local/g' app/.env
 
+      - name: Executando as migrations do banco de dados
+        run: docker exec -t $(docker-compose -f dev/docker-compose.yml ps -q mapas) php app/bin/doctrine migrations:migrate -n
+
       - name: Executar as fixtures
         run: docker exec -t $(docker-compose -f dev/docker-compose.yml ps -q mapas) php app/bin/console app:fixtures
 
