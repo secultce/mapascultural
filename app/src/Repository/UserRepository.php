@@ -9,6 +9,7 @@ use App\Exception\ResourceNotFoundException;
 use App\Repository\Interface\UserRepositoryInterface;
 use Doctrine\Persistence\ObjectRepository;
 use MapasCulturais\Entities\User;
+use MapasCulturais\Entities\UserMeta;
 
 class UserRepository extends AbstractRepository implements UserRepositoryInterface
 {
@@ -30,6 +31,13 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
             ->getArrayResult();
     }
 
+    public function getUserMetadata(int $userId): mixed
+    {
+        return $this->mapaCulturalEntityManager
+            ->getRepository(UserMeta::class)
+            ->findOneBy(['owner' => $userId]);
+    }
+
     public function find(int $id): User
     {
         $user = $this->repository->findOneBy([
@@ -48,5 +56,17 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
     {
         $this->mapaCulturalEntityManager->persist($user);
         $this->mapaCulturalEntityManager->flush();
+    }
+
+    public function findOneBy(array $params): ?User
+    {
+        $params['status'] = EntityStatusEnum::ENABLED->getValue();
+
+        return $this->repository->findOneBy($params);
+    }
+
+    public function findBy(array $params): array
+    {
+        return $this->repository->findBy($params);
     }
 }

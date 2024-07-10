@@ -9,4 +9,8 @@ use MapasCulturais\Entities\User;
 interface UserServiceInterface
 {
     public function find(int $id): User;
+
+    public function findOneBy(array $params): User;
+
+    public function save(User $user): void;
 }
