@@ -21,6 +21,16 @@ class Environment
         return $_ENV['APP_ENV'];
     }
 
+    public static function getApiPrivateKey(): string
+    {
+        return file_get_contents(dirname(__DIR__, 3).'/private.key');
+    }
+
+    public static function getApiPublicKey(): string
+    {
+        return file_get_contents(dirname(__DIR__, 3).'/pubkey.key');
+    }
+
     public static function getEnvData(): mixed
     {
         return dirname(__DIR__, 2).'/.env';

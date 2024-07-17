@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
+use App\Application\Environment;
 use App\Exception\InvalidCredentialsException;
 use App\Request\AuthRequest;
 use App\Service\Interface\UserServiceInterface;
+use Firebase\JWT\JWT;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class AuthApiController extends AbstractApiController
@@ -33,7 +35,12 @@ class AuthApiController extends AbstractApiController
             throw new InvalidCredentialsException();
         }
 
-        $user->setAuthToken('1q2w3e'.substr(microtime(), 0, 8).$user->id);
+        $payload = [
+            'email' => $request['email'],
+        ];
+        $jwt = JWT::encode($payload, Environment::getApiPrivateKey(), 'RS256');
+
+        $user->setAuthToken($jwt);
         $this->userService->save($user);
 
         return new JsonResponse([
