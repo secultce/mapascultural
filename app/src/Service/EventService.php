@@ -49,8 +49,9 @@ class EventService implements EventServiceInterface
             type: Event::class,
             context: ['object_to_populate' => $eventFromDB]
         );
-        $eventUpdated->saveTerms();
 
+        $eventUpdated->saveTerms();
+        $eventUpdated->saveMetadata();
         $this->repository->update($eventUpdated);
 
         return $eventUpdated;

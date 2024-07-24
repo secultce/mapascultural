@@ -67,12 +67,17 @@ class EventApiControllerTest extends AbstractTestCase
             'body' => $eventTestFixtures->json(),
         ]);
 
+        $content = json_decode($response->getContent(), true);
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertIsArray($content);
+        foreach ($eventTestFixtures->toArray() as $key => $value) {
+            $this->assertEquals($value, $content[$key]);
+        }
     }
 
     public function testDeleteEventShouldReturnNoContent(): void
     {
-        $response = $this->client->request(Request::METHOD_DELETE, self::BASE_URL.'/1');
+        $response = $this->client->request(Request::METHOD_DELETE, self::BASE_URL.'/4');
 
         $this->assertEquals(Response::HTTP_NO_CONTENT, $response->getStatusCode());
     }
