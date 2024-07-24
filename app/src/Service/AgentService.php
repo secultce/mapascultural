@@ -43,6 +43,7 @@ class AgentService implements AgentServiceInterface
         );
 
         $agentUpdated->saveTerms();
+        $agentFromDB->saveMetadata();
         $this->repository->save($agentUpdated);
 
         return $agentUpdated;

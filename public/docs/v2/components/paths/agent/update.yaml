@@ -1,7 +1,10 @@
 tags:
   - Agentes
 summary: Atualiza um agente
-description: Atualiza um agente no sistema com as informações fornecidas.
+description: |
+  Atualiza um agente no sistema com as informações fornecidas.
+  
+  **Importante:** Para atualizar um agente, é necessário estar autenticado com o usuário responsável pelo agente.
 parameters:
   - in: path
     name: id

@@ -7,12 +7,28 @@ namespace App\Tests\Functional;
 use App\DataFixtures\AgentFixtures;
 use App\Tests\AbstractTestCase;
 use App\Tests\fixtures\AgentTestFixtures;
+use MapasCulturais\App;
+use MapasCulturais\Entities\User;
+use ReflectionClass;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class AgentApiControllerTest extends AbstractTestCase
 {
     private const BASE_URL = '/api/v2/agents';
+
+    public function testAuthentication()
+    {
+        $app = App::i();
+        $reflection = new ReflectionClass($app);
+        $method = $reflection->getMethod('_setAuthenticatedUser');
+
+        $user = $app->en->getRepository(User::class)->findOneBy(['id' => 1]);
+        $method->invoke($app, $user);
+
+//        $authentication = $this->client->request(Request::METHOD_GET, 'http://localhost/autenticacao/fakeLogin/?fake_authentication_user_id=7');
+//        $this->assertEquals(Response::HTTP_OK, $authentication->getStatusCode());
+    }
 
     public function testGetAgentsShouldRetrieveAList(): void
     {
@@ -76,11 +92,9 @@ class AgentApiControllerTest extends AbstractTestCase
 
     public function testUpdate(): void
     {
-        $agentTestFixtures = AgentTestFixtures::partial();
+        $agentTestFixtures = AgentTestFixtures::completeInstance();
 
-        $url = sprintf(self::BASE_URL.'/%s', AgentFixtures::AGENT_ID_4);
-
-        $response = $this->client->request(Request::METHOD_PATCH, $url, [
+        $response = $this->client->request(Request::METHOD_PATCH, self::BASE_URL.'/7', [
             'body' => $agentTestFixtures->json(),
         ]);
 
