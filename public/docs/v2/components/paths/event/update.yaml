@@ -1,7 +1,10 @@
 tags:
   - Eventos
 summary: Atualiza de um evento.
-description: Atualiza um evento existente com os dados fornecidos.
+description: | 
+  Atualiza um evento existente com os dados fornecidos.
+  
+  **Importante:** Para atualizar um evento, é necessário estar autenticado com o usuário responsável pelo evento.
 requestBody:
   content:
     application/json:
