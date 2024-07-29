@@ -12,8 +12,8 @@
         <a  class="fa fa-twitter" 
             title="Share on Tweet" target="_blank" 
             @click="click('twitter')">
-        
-            <mc-icon name="twitter"></mc-icon>
+
+            <mc-icon name="x"></mc-icon>
         </a>   
         
         <a  class="fa fa-facebook" 

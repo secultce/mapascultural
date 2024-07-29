@@ -21,10 +21,11 @@ $iconset = [
     'pinterest' => 'fa6-brands:pinterest-p',
     'spotify' => 'akar-icons:spotify-fill',
     'telegram' => 'cib:telegram-plane',
-    'twitter' => 'akar-icons:twitter-fill',
+    'x' => 'fa6-brands:x-twitter',
     'whatsapp' => 'akar-icons:whatsapp-fill',
     'vimeo' => 'brandico:vimeo',
     'youtube' => 'akar-icons:youtube-fill',
+    'tiktok' => 'bxl:tiktok',
 
 
     // IMPORTANTE: manter ordem alfabética

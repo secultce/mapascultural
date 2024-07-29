@@ -256,6 +256,17 @@ globalThis.Utils = {
     },
 
     buildSocialMediaLink(entity, socialMedia){
-        return "https://" + socialMedia + ".com/" + entity[socialMedia];
+        let baseUrl = "https://" + socialMedia + ".com/";
+
+        switch (socialMedia) {
+            case 'linkedin':
+                baseUrl = "https://www.linkedin.com/in/";
+                break;
+            case 'spotify':
+                baseUrl = `https://open.spotify.com/`;
+                break;
+        }
+
+        return baseUrl + entity[socialMedia];
     }
 }

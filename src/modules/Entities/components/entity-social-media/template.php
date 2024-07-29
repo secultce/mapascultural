@@ -18,14 +18,20 @@ $this->import('
             <a target="_blank" :href="buildSocialMediaLink('instagram')">{{entity.instagram}}</a>
         </div>
 
-        <div v-if="entity.twitter" class="entity-social-media__links--link">
-            <mc-icon name="twitter"></mc-icon>
-            <a target="_blank" :href="buildSocialMediaLink('twitter')">{{entity.twitter}}</a>
+        <div v-if="entity.twitter || entity.x" class="entity-social-media__links--link">
+            <mc-icon name="x"></mc-icon>
+            <a v-if="entity.x" target="_blank" :href="buildSocialMediaLink('x')">{{entity.x}}</a>
+            <a v-if="entity.twitter" target="_blank" :href="buildSocialMediaLink('twitter')">{{entity.twitter}}</a>
         </div>
 
         <div v-if="entity.facebook" class="entity-social-media__links--link">
             <mc-icon name="facebook"></mc-icon>
             <a target="_blank" :href="buildSocialMediaLink('facebook')">{{entity.facebook}}</a>
+        </div>
+
+        <div v-if="entity.tiktok" class="entity-social-media__links--link">
+            <mc-icon name="tiktok"></mc-icon>
+            <a target="_blank" :href="buildSocialMediaLink('tiktok')">{{entity.tiktok}}</a>
         </div>
 
         <div v-if="entity.youtube" class="entity-social-media__links--link">
@@ -45,7 +51,7 @@ $this->import('
 
         <div v-if="entity.spotify" class="entity-social-media__links--link">
             <mc-icon name="spotify"></mc-icon>
-            <a target="_blank" :href="buildSocialMediaLink('spotify')">{{entity.spotify}}</a>
+            <a target="_blank" :href="buildSocialMediaLink('spotify')">{{entity.name}}</a>
         </div>
 
         <div v-if="entity.pinterest" class="entity-social-media__links--link">
@@ -63,8 +69,13 @@ $this->import('
             <entity-field :entity="entity" prop="instagram"></entity-field>
         </div>
 
-        <div class="entity-social-media__edit--link">
-            <mc-icon name="twitter"></mc-icon>
+        <div class="entity-social-media__edit--link" v-if="!entity.twitter">
+            <mc-icon name="x"></mc-icon>
+            <entity-field :entity="entity" prop="x"></entity-field>
+        </div>
+
+        <div class="entity-social-media__edit--link" v-if="entity.twitter">
+            <mc-icon name="x"></mc-icon>
             <entity-field :entity="entity" prop="twitter"></entity-field>
         </div>
 
@@ -74,8 +85,8 @@ $this->import('
         </div>
 
         <div class="entity-social-media__edit--link">
-            <mc-icon name="vimeo"></mc-icon>
-            <entity-field :entity="entity" prop="vimeo"></entity-field>
+            <mc-icon name="tiktok"></mc-icon>
+            <entity-field :entity="entity" prop="tiktok"></entity-field>
         </div>
 
         <div class="entity-social-media__edit--link">
@@ -96,6 +107,11 @@ $this->import('
         <div class="entity-social-media__edit--link">
             <mc-icon name="pinterest"></mc-icon>
             <entity-field :entity="entity" prop="pinterest"></entity-field>
+        </div>
+
+        <div class="entity-social-media__edit--link">
+            <mc-icon name="vimeo"></mc-icon>
+            <entity-field :entity="entity" prop="vimeo"></entity-field>
         </div>
     </div>
 </div>

@@ -2,6 +2,8 @@
 
 namespace MapasCulturais;
 
+use App\Enum\SocialMediaEnum;
+
 class Utils {
     static function removeAccents($string) {
         if (!preg_match('/[\x80-\xff]/', $string))
@@ -181,24 +183,33 @@ class Utils {
      *  
      * @return string|null 
      */
-    static function parseSocialMediaUser(string $domain, ?string $value) : string|null {
-        $result = null;
-
-        if($value){
-
-            $domain = preg_quote($domain);
-            
-            $_value = trim($value);
-            $_value = preg_replace("~^(?:https?:\/\/)?(?:www\.)?~i", "", $_value);
-            $_value = rtrim($_value, '/');
-    
-            if (preg_match("/(?:{$domain})\/(profile\.php\?id=)?([\w\d\.]+)/i", $_value, $matches)) {
-                $result = $matches[2];
-            } else if(preg_match("/^@?([\w\d\.]+)$/i", $_value, $matches)){
-                $result = $matches[1];
-            }
+    static function parseSocialMediaUser(SocialMediaEnum $domain, ?string $value) : string|null
+    {
+        if (true === empty($value)) {
+            return null;
         }
 
-        return $result;
+        $domainRegex = $domain->getParsingRegex();
+
+        $_value = trim($value);
+        $_value = preg_replace("~^(?:https?:\/\/)?(?:www\.)?~i", "", $_value);
+        $_value = rtrim($_value, '/');
+
+        if (false === preg_match($domainRegex, $_value, $matches)) {
+            return null;
+        }
+
+        return match ($domain) {
+            SocialMediaEnum::SPOTIFY => self::formatSpotifyUser($matches),
+            default => end($matches),
+        };
+    }
+
+    private static function formatSpotifyUser(array $matches): string
+    {
+        $type = empty($matches[1]) ? $matches[3] : $matches[1];
+        $id = empty($matches[2]) ? $matches[4] : $matches[2];
+
+        return "$type/$id";
     }
 }
