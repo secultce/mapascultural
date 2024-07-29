@@ -29,6 +29,9 @@ $this->import('
     mc-tab
 ');
 
+// Incluindo o CSS da pasta theme-BaseV2.CSS
+echo '<link rel="stylesheet" href="'.$app->createUrl('theme-BaseV2.CSS/styles.css').'">';
+
 $label = $this->isRequestedEntityMine() ? i::__('Meus agentes') : i::__('Agentes');
 $this->breadcrumb = [
     ['label' => i::__('Painel'), 'url' => $app->createUrl('panel', 'index')],
@@ -55,7 +58,7 @@ $this->breadcrumb = [
                         <div class="left">
                             <div class="grid-12 v-bottom">
                                 <entity-cover :entity="entity" classes="col-12"></entity-cover>
-                                
+
                                 <div class="col-12 grid-12">
                                     <?php $this->applyTemplateHook('entity-info','begin') ?>
                                     <div class="col-3 sm:col-12">
@@ -135,14 +138,31 @@ $this->breadcrumb = [
                 </aside>
             </mc-container>
         </mc-tab>
-        <mc-tab label="<?= i::_e('Selos') ?>" slug="seals"></mc-tab>
+        <mc-tab label="<?= i::_e('Selos') ?>" slug="seals">
+            <div style="margin-top: 30px;">
+                <mc-tabs class="sub-tabs" style="margin-top: 30px;">
+                    <mc-tab label="<?= i::_e('Válidos') ?>" slug="valid">
+
+                    </mc-tab>
+                    <mc-tab label="<?= i::_e('Pendentes') ?>" slug="pending">
+
+                    </mc-tab>
+                    <mc-tab label="<?= i::_e('Expirados') ?>" slug="expired">
+
+                    </mc-tab>
+                    <mc-tab label="<?= i::_e('Excluídos') ?>" slug="excluded">
+
+                    </mc-tab>
+                </mc-tabs>
+            </div>
+        </mc-tab>
         <mc-tab label="<?= i::_e('Administração') ?>" slug="admin"></mc-tab>
         <mc-tab label="<?= i::_e('Organizações') ?>" slug="organization"></mc-tab>
         <mc-tab label="<?= i::_e('Propriedades') ?>" slug="properties"></mc-tab>
         <mc-tab label="<?= i::_e('Documentos') ?>" slug="documents"></mc-tab>
         <?php $this->applyTemplateHook('tabs','end') ?>
     </mc-tabs>
-    
+
     <entity-actions :entity="entity" editable></entity-actions>
 </div>
 <confirm-before-exit :entity="entity"></confirm-before-exit>
