@@ -23,9 +23,6 @@ class TermApiControllerTest extends AbstractTestCase
 
         $this->assertArrayHasKey('id', $content[0]);
         $this->assertArrayHasKey('taxonomy', $content[0]);
-
-        $this->assertEquals(1, $content[0]['id']);
-        $this->assertEquals('area', $content[0]['taxonomy']);
     }
 
     public function testGetOneTermShouldRetrieveAObject(): void

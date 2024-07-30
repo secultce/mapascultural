@@ -6,6 +6,7 @@ namespace App\DataFixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use MapasCulturais\App;
 use ReflectionClass;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
@@ -46,5 +47,10 @@ abstract class Fixture extends AbstractFixture implements FixtureInterface
 
         $statement = $connection->prepare("DELETE FROM {$tableName}");
         $statement->execute();
+    }
+
+    public function getApp(): App
+    {
+        return App::i();
     }
 }
