@@ -9,7 +9,7 @@ use App\Enum\EntityStatusEnum;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use MapasCulturais\Entities\Agent;
-use MapasCulturais\Entities\AgentPermissionCache;
+use MapasCulturais\Entities\Role;
 
 class AgentFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -27,7 +27,7 @@ class AgentFixtures extends Fixture implements DependentFixtureInterface
             'name' => 'Admin@local',
             'type' => AgentTypeEnum::ADMIN,
             'shortDescription' => 'Admin@local',
-            'longDescription' => '',
+            'longDescription' => 'Usuário administrator',
             'status' => EntityStatusEnum::ENABLED,
         ],
         [
@@ -72,47 +72,6 @@ class AgentFixtures extends Fixture implements DependentFixtureInterface
         ],
     ];
 
-    public const PERMISSION_CACHE = [
-        [
-            'user_id' => self::AGENT_ID_1,
-            'object_id' => self::AGENT_ID_1,
-        ],
-        [
-            'user_id' => self::AGENT_ID_2,
-            'object_id' => self::AGENT_ID_2,
-        ],
-        [
-            'user_id' => self::AGENT_ID_3,
-            'object_id' => self::AGENT_ID_3,
-        ],
-        [
-            'user_id' => self::AGENT_ID_4,
-            'object_id' => self::AGENT_ID_4,
-        ],
-        [
-            'user_id' => self::AGENT_ID_5,
-            'object_id' => self::AGENT_ID_5,
-        ],
-        [
-            'user_id' => self::AGENT_ID_6,
-            'object_id' => self::AGENT_ID_6,
-        ],
-    ];
-
-    public const ACTIONS = [
-        '@control',
-        'create',
-        'view',
-        'modify',
-        'viewPrivateFiles',
-        'viewPrivateData',
-        'createAgentRelation',
-        'createAgentRelationWithControl',
-        'removeAgentRelation',
-        'removeAgentRelationWithControl',
-        'unarchive',
-    ];
-
     public function getDependencies(): array
     {
         return [
@@ -141,21 +100,12 @@ class AgentFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($user);
         }
 
-        $objectType = 'MapasCulturais\Entities\Agent';
-        foreach (self::PERMISSION_CACHE as $permissionCacheData) {
-            $userReference = $this->getReference(UserFixtures::USER_ID_PREFIX.'-'.$permissionCacheData['user_id']);
-            $objectIdReference = $this->getReference(self::AGENT_ID_PREFIX.'-'.$permissionCacheData['object_id']);
+        $this->deleteAllDataFromTable(Role::class);
+        $role = new Role();
+        $role->name = 'saasSuperAdmin';
+        $role->user = $this->getReference(UserFixtures::USER_ID_PREFIX.'-1');
 
-            foreach (self::ACTIONS as $action) {
-                $permissionCache = new AgentPermissionCache();
-                $permissionCache->user = $userReference;
-                $permissionCache->action = $action;
-                $permissionCache->objectType = $objectType;
-                $permissionCache->owner = $objectIdReference;
-
-                $manager->persist($permissionCache);
-            }
-        }
+        $manager->persist($role);
 
         $manager->flush();
     }
