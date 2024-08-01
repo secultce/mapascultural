@@ -23,8 +23,13 @@ $this->import('
             <!-- <mc-icon  v-if="!entity.files.avatar" :entity="entity"></mc-icon> -->
             <nav class="share" aria-label="<?= i::__('Compartilhar') ?>">
                 <a v-if="entity.twitter" :href="entity.twitter" class="button button--text button--icon" aria-label="Twitter" target="_blank">
-                    <mc-icon name="twitter"></mc-icon>
+                    <mc-icon name="x"></mc-icon>
                 </a>
+
+                <a v-if="entity.x" :href="entity.twitter" class="button button--text button--icon" aria-label="Twitter" target="_blank">
+                    <mc-icon name="x"></mc-icon>
+                </a>
+
                 <a v-if="entity.linkedin" :href="entity.linkedin" class="button button--text button--icon" aria-label="Linkedin" target="_blank">
                     <mc-icon name="linkedin"></mc-icon>
                 </a>
