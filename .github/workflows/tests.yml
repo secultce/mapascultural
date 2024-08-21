@@ -16,7 +16,7 @@ jobs:
         with:
           args: '--dry-run --diff -vvv'
 
-  PHP_UNIT:
+  PHP_UNIT_AND_CYPRESS:
     name: PHP UNIT
     runs-on: ubuntu-latest
     steps:
@@ -56,3 +56,16 @@ jobs:
           php_version: 8.2
           bootstrap: vendor/autoload.php
           args: app/tests
+
+      - name: Install package
+        run: |
+          npm install
+
+      - name: Executar testes do Cypress
+        run: |
+          npx cypress run
+
+      - name: E2E on Chrome
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
